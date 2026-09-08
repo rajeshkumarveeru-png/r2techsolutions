@@ -4,14 +4,11 @@ export type CompanyConfig = {
   tagline: string
   heroTitle: string
   heroText: string
-
   aboutTitle: string
   aboutText: string
-
   logo: string
   heroImage: string
   aboutImage: string
-
   phone: string
   email: string
   address: string
@@ -56,206 +53,373 @@ export type CompanyConfig = {
   }
 }
 
+
 export const company: CompanyConfig = {
-  name: 'RR Tech Solutions',
 
-  shortName: 'RR Tech Solutions',
+  /* ============================================================
+     BRAND
+     ============================================================ */
 
-  tagline: 'Quality Products. Trusted Service.',
+  name: 'BIZ360',
+
+  shortName: 'BIZ360',
+
+  tagline:
+    'Smart POS. Simple Billing. Better Business.',
+
+
+  /* ============================================================
+     HERO
+     ============================================================ */
 
   heroTitle:
-    'Building better solutions for modern businesses.',
+    'Powerful POS and billing software built for modern businesses.',
 
   heroText:
-    'We deliver dependable products and professional services designed to help businesses grow with confidence.',
+    'BIZ360 helps businesses manage billing, products, inventory, customers and sales from one simple platform. Create invoices faster, track stock accurately and understand your business with powerful reports.',
+
+
+  /* ============================================================
+     ABOUT
+     ============================================================ */
 
   aboutTitle:
-    'A trusted partner for your business',
+    'Everything you need to run your business in one place.',
 
   aboutText:
-    'ABC Industries is a professional business focused on quality, reliability and long-term customer relationships. Replace this content with your company story, experience and values.',
+    'BIZ360 is a complete POS and business management platform designed for retail shops, supermarkets, wholesalers and growing businesses. From everyday billing to inventory control and sales insights, BIZ360 helps you manage your business with less manual work and better visibility.',
+
+
+  /* ============================================================
+     BRAND ASSETS
+     ============================================================ */
 
   logo:
     '/images/logo-placeholder.svg',
 
   heroImage:
-    'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85',
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=85',
 
   aboutImage:
-    'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85',
+    'https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=1200&q=85',
+
+
+  /* ============================================================
+     CONTACT
+     ============================================================ */
 
   phone:
     '+91 98765 43210',
 
   email:
-    'info@example.com',
+    'info@biz360.in',
 
   address:
-    'Chennai, Tamil Nadu, India',
+    'Tamil Nadu, India',
+
+
+  /* ============================================================
+     CORE FEATURES / SERVICES
+     ============================================================ */
 
   services: [
-    {
-      title: 'Professional Services',
-      description:
-        'Reliable solutions delivered by an experienced team.',
-      icon: 'briefcase'
-    },
 
     {
-      title: 'Quality & Manufacturing',
+      title:
+        'Smart POS Billing',
+
       description:
-        'Consistent quality with practical, efficient processes.',
-      icon: 'factory'
+        'Create invoices quickly with a simple POS screen designed for fast day-to-day billing.',
+
+      icon:
+        'briefcase'
     },
 
-    {
-      title: 'Distribution',
-      description:
-        'Dependable supply and distribution for your business needs.',
-      icon: 'truck'
-    },
 
     {
-      title: 'Business Consulting',
+      title:
+        'Inventory Management',
+
       description:
-        'Clear guidance to improve operations and business performance.',
-      icon: 'chart'
+        'Track stock levels, monitor product availability and keep your inventory under control.',
+
+      icon:
+        'factory'
+    },
+
+
+    {
+      title:
+        'Barcode Billing',
+
+      description:
+        'Scan products using a barcode scanner and add items to the bill quickly and accurately.',
+
+      icon:
+        'truck'
+    },
+
+
+    {
+      title:
+        'Sales & Business Reports',
+
+      description:
+        'Understand your business with sales insights, top-selling products and useful reports.',
+
+      icon:
+        'chart'
     }
+
   ],
+
+
+  /* ============================================================
+     BUSINESS TYPES / CLIENTS
+     ============================================================ */
 
   clients: [
+
     {
-      name: 'Client One'
+      name:
+        'Retail Shops'
     },
 
     {
-      name: 'Client Two'
+      name:
+        'Supermarkets'
     },
 
     {
-      name: 'Client Three'
+      name:
+        'Hardware Stores'
     },
 
     {
-      name: 'Client Four'
+      name:
+        'Electrical Shops'
     },
 
     {
-      name: 'Client Five'
+      name:
+        'Textile Stores'
     },
 
     {
-      name: 'Client Six'
+      name:
+        'Wholesale Businesses'
     },
 
     {
-      name: 'Client Seven'
+      name:
+        'Grocery Stores'
     },
 
     {
-      name: 'Client Eight'
+      name:
+        'Growing Businesses'
     }
+
   ],
+
+
+  /* ============================================================
+     PRODUCTS / SOLUTIONS
+     ============================================================ */
 
   products: [
+
     {
-      name: 'Solution One',
+      name:
+        'BIZ360 POS',
 
       description:
-        'A dependable solution for everyday business requirements.',
+        'A fast and easy point-of-sale system for everyday billing, payments and invoice management.',
 
       image:
-        'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=900&q=80'
+        'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80'
     },
 
+
     {
-      name: 'Solution Two',
+      name:
+        'BIZ360 Inventory',
 
       description:
-        'Designed for performance, consistency and ease of use.',
+        'Manage products, stock quantities, product categories and inventory movements from one place.',
 
       image:
-        'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80'
+        'https://images.unsplash.com/photo-1586528116493-da8b3d7c0e9b?auto=format&fit=crop&w=900&q=80'
     },
 
+
     {
-      name: 'Solution Three',
+      name:
+        'BIZ360 Business Dashboard',
 
       description:
-        'Practical products that help your business operate better.',
+        'Get a clear view of sales, products, customers and business performance through useful dashboards and reports.',
 
       image:
-        'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80'
+        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80'
     }
+
   ],
+
+
+  /* ============================================================
+     KEY HIGHLIGHTS
+     ============================================================ */
 
   stats: [
-    {
-      value: '10+',
-      label: 'Years Experience'
-    },
 
     {
-      value: '500+',
-      label: 'Happy Clients'
+      value:
+        'FAST',
+
+      label:
+        'POS Billing'
     },
 
-    {
-      value: '1,000+',
-      label: 'Projects Delivered'
-    },
 
     {
-      value: '20+',
-      label: 'Team Members'
+      value:
+        'LIVE',
+
+      label:
+        'Stock Tracking'
+    },
+
+
+    {
+      value:
+        'BARCODE',
+
+      label:
+        'Ready'
+    },
+
+
+    {
+      value:
+        '24/7',
+
+      label:
+        'Business Access'
     }
+
   ],
+
+
+  /* ============================================================
+     WHY BIZ360
+     ============================================================ */
 
   reasons: [
-    {
-      title: 'Experienced Team',
-      description:
-        'Skilled professionals focused on delivering dependable results.'
-    },
 
     {
-      title: 'Quality First',
+      title:
+        'Fast Billing',
+
       description:
-        'We maintain consistent standards across products and services.'
+        'Create bills quickly with a clean POS interface designed for busy business environments.'
     },
 
-    {
-      title: 'Customer Focus',
-      description:
-        'We build lasting relationships through responsive support.'
-    },
 
     {
-      title: 'Reliable Delivery',
+      title:
+        'Accurate Inventory',
+
       description:
-        'Clear processes and dependable execution from start to finish.'
+        'Keep track of available stock and reduce mistakes caused by manual inventory management.'
+    },
+
+
+    {
+      title:
+        'Barcode Support',
+
+      description:
+        'Use barcode scanners to search and add products quickly during billing.'
+    },
+
+
+    {
+      title:
+        'Business Insights',
+
+      description:
+        'See sales performance, top-selling products and other useful business information.'
+    },
+
+
+    {
+      title:
+        'Customer Management',
+
+      description:
+        'Maintain customer information and connect customers with their sales and invoices.'
+    },
+
+
+    {
+      title:
+        'Built to Grow',
+
+      description:
+        'Start with billing and inventory today and expand into more business management capabilities as your business grows.'
     }
+
   ],
+
+
+  /* ============================================================
+     TESTIMONIALS
+     ============================================================ */
 
   testimonials: [
+
     {
       quote:
-        'Professional team, excellent communication and dependable service.',
-      name: 'Client Name',
-      role: 'Business Owner'
+        'BIZ360 makes our daily billing process much faster and gives us a better understanding of our sales.',
+
+      name:
+        'Retail Business Owner',
+
+      role:
+        'Retail Store'
     },
 
+
     {
       quote:
-        'They understood our requirements quickly and delivered exactly what we needed.',
-      name: 'Client Name',
-      role: 'Operations Manager'
+        'Managing products and stock is much easier when everything is available in one system.',
+
+      name:
+        'Business Owner',
+
+      role:
+        'Wholesale Business'
     }
+
   ],
 
+
+  /* ============================================================
+     THEME
+     ============================================================ */
+
   theme: {
-    primary: '#2563eb',
-    dark: '#0f172a',
-    accent: '#f59e0b'
+
+    primary:
+      '#2563eb',
+
+    dark:
+      '#0f172a',
+
+    accent:
+      '#f59e0b'
+
   }
+
 }
