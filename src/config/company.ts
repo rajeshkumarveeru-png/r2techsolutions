@@ -60,9 +60,9 @@ export const company: CompanyConfig = {
      BRAND
      ============================================================ */
 
-  name: 'BIZ360',
+  name: 'R2Tech Solutions',
 
-  shortName: 'BIZ360',
+  shortName: 'R2Tech Solutions',
 
   tagline:
     'Smart POS. Simple Billing. Better Business.',
@@ -95,7 +95,7 @@ export const company: CompanyConfig = {
      ============================================================ */
 
   logo:
-    '/images/logo-placeholder.svg',
+    '/images/r2.png',
 
   heroImage:
     'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=85',
@@ -109,10 +109,10 @@ export const company: CompanyConfig = {
      ============================================================ */
 
   phone:
-    '+91 98765 43210',
+    '+91 97919 19500',
 
   email:
-    'info@biz360.in',
+    'rtwotechsolutions@gmail.com',
 
   address:
     'Tamil Nadu, India',
