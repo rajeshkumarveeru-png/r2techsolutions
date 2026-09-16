@@ -1,25 +1,33 @@
 import { useState } from 'react'
-
 import {
   ArrowRight,
   BarChart3,
   Barcode,
   Boxes,
   CheckCircle2,
+  ChevronRight,
+  Code2,
   CreditCard,
+  Globe2,
+  Headphones,
   Mail,
   Menu,
   Package,
   Phone,
   Quote,
+  Rocket,
+  Settings2,
   ShoppingCart,
+  Sparkles,
   Users,
-  X
+  X,
+  Zap
 } from 'lucide-react'
 
 import { company } from './config/company'
+import './enterprise-v3.css'
 
-const icons = {
+const iconMap = {
   billing: CreditCard,
   inventory: Boxes,
   barcode: Barcode,
@@ -29,886 +37,525 @@ const icons = {
   sales: ShoppingCart
 }
 
+const serviceContent = [
+  {
+    number: '01',
+    icon: Globe2,
+    title: 'Website Design & Development',
+    description:
+      'Professional business websites, landing pages and responsive digital experiences designed around your brand and customers.'
+  },
+  {
+    number: '02',
+    icon: Code2,
+    title: 'Custom Software Development',
+    description:
+      'Purpose-built business applications, workflow systems, integrations and automation tailored to your requirements.'
+  },
+  {
+    number: '03',
+    icon: ShoppingCart,
+    title: 'POS & Business Products',
+    description:
+      'Smart Billing is one of our products — a practical platform for billing, inventory, customers, payments and business reports.'
+  },
+  {
+    number: '04',
+    icon: Headphones,
+    title: 'Software Support & Maintenance',
+    description:
+      'Reliable technical support, troubleshooting, maintenance, upgrades and continuous improvements after launch.'
+  }
+]
+
+const capabilityContent = [
+  ['Business Websites', 'Modern responsive websites that present your business professionally.'],
+  ['Custom Applications', 'Software designed around your specific workflow and operating needs.'],
+  ['POS & Billing', 'Smart Billing for everyday billing, stock and customer operations.'],
+  ['Automation & Integration', 'Connect systems and reduce repetitive manual work.'],
+  ['Business Dashboards', 'Clear operational visibility through useful data and reporting.'],
+  ['Technical Support', 'Ongoing maintenance and assistance when your software needs it.']
+]
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const scrollTo = (id: string) => {
-    document
-      .getElementById(id)
-      ?.scrollIntoView({
-        behavior: 'smooth'
-      })
-
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
     setMenuOpen(false)
   }
 
   return (
     <div
-      className="site"
+      className="v3-site"
       style={
         {
-          '--primary': company.theme.primary,
-          '--dark': company.theme.dark,
-          '--accent': company.theme.accent
+          '--brand': company.theme.primary,
+          '--brand-dark': company.theme.dark,
+          '--brand-accent': company.theme.accent
         } as React.CSSProperties
       }
     >
-      {/* ========================================================
-          HEADER
-         ======================================================== */}
-
-      <header className="header">
-        <div className="container nav">
-
-          <button
-            className="brand"
-            onClick={() => scrollTo('home')}
-          >
-            <img
-              src={company.logo}
-              alt={`${company.name} logo`}
-            />
-
+      <header className="v3-header">
+        <div className="v3-container v3-nav">
+          <button className="v3-brand" onClick={() => scrollTo('home')}>
+            <img src={company.logo} alt={`${company.name} logo`} />
             <span>
-              {company.shortName}
+              <strong>{company.shortName}</strong>
+              <small>Digital Solutions</small>
             </span>
           </button>
 
-
-          <nav
-            className={
-              menuOpen
-                ? 'nav-links open'
-                : 'nav-links'
-            }
-          >
-
+          <nav className={menuOpen ? 'v3-links open' : 'v3-links'}>
             {[
-              'home:Home',
-              'about:About',
-              'services:Services',
-              'clients:Clients',
-              'products:Products',
-              'contact:Contact'
-            ].map((item) => {
-
-              const [id, label] =
-                item.split(':')
-
-              return (
-                <button
-                  key={id}
-                  onClick={() =>
-                    scrollTo(id)
-                  }
-                >
-                  {label}
-                </button>
-              )
-            })}
-
-
-            <button
-              className="nav-cta"
-              onClick={() =>
-                scrollTo('contact')
-              }
-            >
-              Get Quote
-
-              <ArrowRight
-                size={16}
-              />
+              ['home', 'Home'],
+              ['solutions', 'Solutions'],
+              ['services', 'Services'],
+              ['about', 'About'],
+              ['contact', 'Contact']
+            ].map(([id, label]) => (
+              <button key={id} onClick={() => scrollTo(id)}>
+                {label}
+              </button>
+            ))}
+            <button className="v3-nav-cta" onClick={() => scrollTo('contact')}>
+              Start a Project <ArrowRight size={15} />
             </button>
-
           </nav>
 
-
           <button
-            className="menu-button"
-            onClick={() =>
-              setMenuOpen(
-                (value) => !value
-              )
-            }
+            className="v3-menu"
+            onClick={() => setMenuOpen(v => !v)}
             aria-label="Toggle navigation"
           >
-            {menuOpen
-              ? <X />
-              : <Menu />
-            }
+            {menuOpen ? <X /> : <Menu />}
           </button>
-
         </div>
       </header>
 
-
       <main>
-
-        {/* ========================================================
-            HERO
-           ======================================================== */}
-
-        <section
-          id="home"
-          className="hero"
-        >
-
+        <section id="home" className="v3-hero">
           <div
-            className="hero-image"
-            style={{
-              backgroundImage:
-                `url(${company.heroImage})`
-            }}
+            className="v3-hero-photo"
+            style={{ backgroundImage: `url(${company.heroImage})` }}
           />
+          <div className="v3-hero-shade" />
+          <div className="v3-hero-grid" />
 
-          <div className="hero-overlay" />
-
-
-          <div className="container hero-content">
-
-            <span className="eyebrow">
-              {company.tagline}
-            </span>
-
-
-            <h1>
-              {company.heroTitle}
-            </h1>
-
-
-            <p>
-              {company.heroText}
-            </p>
-
-
-            <div className="hero-actions">
-
-              <button
-                className="button primary"
-                onClick={() =>
-                  scrollTo('contact')
-                }
-              >
-                Talk to Us
-
-                <ArrowRight
-                  size={18}
-                />
-              </button>
-
-
-              <button
-                className="button light"
-                onClick={() =>
-                  scrollTo('services')
-                }
-              >
-                Explore Services
-              </button>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================================
-            ABOUT
-           ======================================================== */}
-
-        <section
-          id="about"
-          className="section"
-        >
-
-          <div className="container split">
-
-            <div className="section-copy">
-
-              <span className="section-label">
-                ABOUT US
-              </span>
-
-
-              <h2>
-                {company.aboutTitle}
-              </h2>
-
-
-              <p>
-                {company.aboutText}
-              </p>
-
-
-              <div className="check-list">
-
-                {company.reasons
-                  .slice(0, 3)
-                  .map((reason) => (
-
-                    <div
-                      key={reason.title}
-                    >
-
-                      <CheckCircle2
-                        size={20}
-                      />
-
-                      <span>
-                        {reason.title}
-                      </span>
-
-                    </div>
-
-                  ))}
-
+          <div className="v3-container v3-hero-inner">
+            <div className="v3-hero-copy">
+              <div className="v3-eyebrow">
+                <span className="v3-pulse" />
+                DIGITAL PRODUCTS • SOFTWARE • SUPPORT
               </div>
 
+              <h1>
+                Technology
+                <span>built around</span>
+                your business.
+              </h1>
 
-              <button
-                className="text-button"
-                onClick={() =>
-                  scrollTo('contact')
-                }
-              >
-                Learn more
+              <p>
+                We design websites, build custom software, develop business
+                products and provide dependable technical support — all with
+                one focus: making technology useful for your business.
+              </p>
 
-                <ArrowRight
-                  size={17}
-                />
-              </button>
+              <div className="v3-actions">
+                <button className="v3-btn v3-btn-primary" onClick={() => scrollTo('contact')}>
+                  Discuss Your Requirement <ArrowRight size={17} />
+                </button>
+                <button className="v3-btn v3-btn-glass" onClick={() => scrollTo('solutions')}>
+                  Explore What We Build
+                </button>
+              </div>
 
+              <div className="v3-proof-row">
+                <span><CheckCircle2 size={15} /> Web Development</span>
+                <span><CheckCircle2 size={15} /> Custom Software</span>
+                <span><CheckCircle2 size={15} /> Business Products</span>
+              </div>
             </div>
 
+            <div className="v3-hero-console">
+              <div className="v3-console-head">
+                <div>
+                  <span>SMART BILLING</span>
+                  <strong>Business Operations</strong>
+                </div>
+                <div className="v3-live"><i /> LIVE</div>
+              </div>
 
-            <div className="image-card">
+              <div className="v3-console-tabs">
+                <span className="active">OVERVIEW</span>
+                <span>BILLING</span>
+                <span>INVENTORY</span>
+                <span>REPORTS</span>
+              </div>
 
-              <img
-                src={company.aboutImage}
-                alt="About the company"
-              />
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================================
-            SERVICES
-           ======================================================== */}
-
-        <section
-          id="services"
-          className="section soft"
-        >
-
-          <div className="container">
-
-            <SectionHeading
-              label="OUR SERVICES"
-              title="Solutions built around your needs"
-              text="Professional services designed to create practical business value."
-            />
-
-
-            <div className="card-grid four">
-
-              {company.services.map(
-                (service) => {
-
-                  const Icon =
-                      icons[
-                          service.icon as keyof typeof icons
-                          ] || CreditCard
-
-
-                  return (
-                    <article
-                      className="service-card"
-                      key={service.title}
-                    >
-
-                      <div className="icon-box">
-
-                        <Icon
-                          size={24}
-                        />
-
-                      </div>
-
-
-                      <h3>
-                        {service.title}
-                      </h3>
-
-
-                      <p>
-                        {service.description}
-                      </p>
-
-
-                      <button
-                        onClick={() =>
-                          scrollTo('contact')
-                        }
-                      >
-                        Learn more
-
-                        <ArrowRight
-                          size={16}
-                        />
-                      </button>
-
-                    </article>
-                  )
-                }
-              )}
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================================
-            CLIENTS
-           ======================================================== */}
-
-        <section
-          id="clients"
-          className="section"
-        >
-
-          <div className="container">
-
-            <SectionHeading
-              label="OUR CLIENTS"
-              title="Trusted by businesses"
-              text="We are proud to work with businesses across different industries."
-            />
-
-
-            <div className="client-grid">
-
-              {company.clients.map(
-                (client) => (
-
-                  <div
-                    className="client-logo"
-                    key={client.name}
-                  >
-
-                    {client.logo ? (
-
-                      <img
-                        src={client.logo}
-                        alt={client.name}
-                      />
-
-                    ) : (
-
-                      <>
-                        <Users
-                          size={24}
-                        />
-
-                        <span>
-                          {client.name}
-                        </span>
-                      </>
-
-                    )}
-
+              <div className="v3-console-grid">
+                <div className="v3-console-card v3-large">
+                  <small>TODAY</small>
+                  <strong>Business at a glance</strong>
+                  <div className="v3-line-chart">
+                    <i /><i /><i /><i /><i /><i /><i /><i />
                   </div>
-
-                )
-              )}
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================================
-            STATS
-           ======================================================== */}
-
-        <section className="stats-section">
-
-          <div className="container stats-grid">
-
-            {company.stats.map(
-              (stat) => (
-
-                <div
-                  className="stat"
-                  key={stat.label}
-                >
-
-                  <strong>
-                    {stat.value}
-                  </strong>
-
-                  <span>
-                    {stat.label}
-                  </span>
-
+                  <div className="v3-chart-foot">
+                    <span>Operational visibility</span>
+                    <b><BarChart3 size={13} /> Reports</b>
+                  </div>
                 </div>
 
-              )
-            )}
+                <div className="v3-console-card">
+                  <small>WORKFLOW</small>
+                  <div className="v3-mini-stat"><CreditCard size={17} /><strong>Billing</strong><span>Fast</span></div>
+                  <div className="v3-mini-stat"><Boxes size={17} /><strong>Stock</strong><span>Live</span></div>
+                  <div className="v3-mini-stat"><Users size={17} /><strong>Customers</strong><span>Organized</span></div>
+                </div>
+              </div>
 
+              <div className="v3-scan">
+                <div className="v3-scan-icon"><Barcode size={20} /></div>
+                <div><strong>QR / Barcode ready</strong><span>Speed up product lookup and billing</span></div>
+                <Zap size={17} />
+              </div>
+
+              <div className="v3-console-footer">
+                <span><Sparkles size={13} /> Built for practical business operations</span>
+                <span>01 / 04</span>
+              </div>
+            </div>
           </div>
-
         </section>
 
+        <section className="v3-marquee">
+          <div className="v3-container v3-marquee-inner">
+            <span>WHAT WE DO</span>
+            <i />
+            <b>WEBSITES</b>
+            <i />
+            <b>CUSTOM SOFTWARE</b>
+            <i />
+            <b>POS PRODUCTS</b>
+            <i />
+            <b>AUTOMATION</b>
+            <i />
+            <b>SUPPORT</b>
+          </div>
+        </section>
 
-        {/* ========================================================
-            PRODUCTS
-           ======================================================== */}
-
-        <section
-          id="products"
-          className="section"
-        >
-
-          <div className="container">
-
-            <SectionHeading
-              label="PRODUCTS & SOLUTIONS"
-              title="What we offer"
-              text="Explore our core products and solutions."
-            />
-
-
-            <div className="product-grid">
-
-              {company.products.map(
-                (product) => (
-
-                  <article
-                    className="product-card"
-                    key={product.name}
-                  >
-
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                    />
-
-
-                    <div>
-
-                      <h3>
-                        {product.name}
-                      </h3>
-
-
-                      <p>
-                        {product.description}
-                      </p>
-
-
-                      <button
-                        onClick={() =>
-                          scrollTo('contact')
-                        }
-                      >
-                        Enquire now
-
-                        <ArrowRight
-                          size={16}
-                        />
-                      </button>
-
-                    </div>
-
-                  </article>
-
-                )
-              )}
-
+        <section id="solutions" className="v3-section">
+          <div className="v3-container">
+            <div className="v3-heading">
+              <div>
+                <span className="v3-label">SOLUTIONS</span>
+                <h2>One technology partner.<br />Multiple ways to move forward.</h2>
+              </div>
+              <p>
+                Start with a product, commission a website, build custom
+                software or bring us in to support an existing system.
+              </p>
             </div>
 
-          </div>
+            <div className="v3-solution-layout">
+              <article className="v3-feature-product">
+                <div className="v3-feature-top">
+                  <span>01 / PRODUCT</span>
+                  <span className="v3-status"><i /> AVAILABLE</span>
+                </div>
 
-        </section>
-
-
-        {/* ========================================================
-            WHY CHOOSE US
-           ======================================================== */}
-
-        <section className="section soft">
-
-          <div className="container">
-
-            <SectionHeading
-              label="WHY CHOOSE US"
-              title="A partner you can depend on"
-              text="Our approach is simple: understand, deliver and support."
-            />
-
-
-            <div className="reason-grid">
-
-              {company.reasons.map(
-                (reason) => (
-
-                  <article
-                    key={reason.title}
-                  >
-
-                    <CheckCircle2
-                      size={22}
-                    />
-
-
-                    <div>
-
-                      <h3>
-                        {reason.title}
-                      </h3>
-
-
-                      <p>
-                        {reason.description}
-                      </p>
-
-                    </div>
-
-                  </article>
-
-                )
-              )}
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* ========================================================
-            TESTIMONIALS
-           ======================================================== */}
-
-        <section className="section">
-
-          <div className="container">
-
-            <SectionHeading
-              label="TESTIMONIALS"
-              title="What our clients say"
-              text="Real relationships are built on consistent results."
-            />
-
-
-            <div className="testimonial-grid">
-
-              {company.testimonials.map(
-                (testimonial) => (
-
-                  <article
-                    className="testimonial"
-                    key={
-                      testimonial.name +
-                      testimonial.role
-                    }
-                  >
-
-                    <Quote
-                      size={28}
-                    />
-
-
+                <div className="v3-feature-content">
+                  <div>
+                    <div className="v3-feature-icon"><ShoppingCart size={25} /></div>
+                    <h3>Smart Billing POS</h3>
                     <p>
-                      “
-                      {testimonial.quote}
-                      ”
+                      A modern business billing platform for fast checkout,
+                      inventory, customers, payments, QR/barcode scanning and reports.
                     </p>
 
+                    <div className="v3-feature-list">
+                      {['Fast billing & payments', 'Inventory & stock control', 'Customer management', 'Reports & business visibility'].map(item => (
+                        <span key={item}><CheckCircle2 size={15} /> {item}</span>
+                      ))}
+                    </div>
 
-                    <strong>
-                      {testimonial.name}
-                    </strong>
+                    <button className="v3-arrow-btn" onClick={() => scrollTo('contact')}>
+                      Enquire about Smart Billing <ArrowRight size={16} />
+                    </button>
+                  </div>
 
+                  <div className="v3-product-screen">
+                    <div className="v3-screen-bar"><i /><i /><i /><span>SMART BILLING</span></div>
+                    <div className="v3-screen-body">
+                      <div className="v3-screen-sidebar"><i /><i /><i /><i /><i /></div>
+                      <div className="v3-screen-main">
+                        <div className="v3-screen-title">Billing <small>Business Dashboard</small></div>
+                        <div className="v3-screen-metrics">
+                          <b /><b /><b />
+                        </div>
+                        <div className="v3-screen-table">
+                          <i /><i /><i /><i /><i />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
 
-                    <span>
-                      {testimonial.role}
-                    </span>
-
-                  </article>
-
-                )
-              )}
-
+              <div className="v3-service-stack">
+                {serviceContent.slice(0, 3).map(item => {
+                  const Icon = item.icon
+                  return (
+                    <article className="v3-service-tile" key={item.title}>
+                      <span className="v3-service-number">{item.number}</span>
+                      <div className="v3-service-icon"><Icon size={20} /></div>
+                      <div>
+                        <span className="v3-label">{item.number === '02' ? 'SERVICE' : item.number === '03' ? 'SERVICE' : 'SERVICE'}</span>
+                        <h3>{item.title}</h3>
+                        <p>{item.description}</p>
+                      </div>
+                      <ChevronRight size={19} />
+                    </article>
+                  )
+                })}
+              </div>
             </div>
-
           </div>
-
         </section>
 
-
-        {/* ========================================================
-            CONTACT
-           ======================================================== */}
-
-        <section
-          id="contact"
-          className="contact-section"
-        >
-
-          <div className="container contact-grid">
-
-            <div>
-
-              <span className="section-label">
-                CONTACT US
-              </span>
-
-
-              <h2>
-                Let's discuss your requirements.
-              </h2>
-
-
+        <section id="services" className="v3-dark-section">
+          <div className="v3-container v3-dark-grid">
+            <div className="v3-dark-copy">
+              <span className="v3-label light">OUR SERVICES</span>
+              <h2>From first idea<br />to ongoing support.</h2>
               <p>
-                Tell us what you need and our team
-                will get back to you.
+                We work across the complete software lifecycle — strategy,
+                design, development, deployment and support.
+              </p>
+              <button className="v3-btn v3-btn-light" onClick={() => scrollTo('contact')}>
+                Start a Conversation <ArrowRight size={17} />
+              </button>
+            </div>
+
+            <div className="v3-service-list">
+              {serviceContent.map(item => {
+                const Icon = item.icon
+                return (
+                  <article className="v3-service-row" key={item.title}>
+                    <span>{item.number}</span>
+                    <div className="v3-row-icon"><Icon size={19} /></div>
+                    <div>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                    <ChevronRight size={18} />
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="v3-section v3-capability">
+          <div className="v3-container">
+            <div className="v3-heading centered">
+              <span className="v3-label">CAPABILITIES</span>
+              <h2>Technology that solves real business problems.</h2>
+              <p>
+                We keep the technology practical, maintainable and aligned
+                with the way your business actually operates.
+              </p>
+            </div>
+
+            <div className="v3-capability-grid">
+              {capabilityContent.map(([title, text], index) => (
+                <article key={title}>
+                  <span>0{index + 1}</span>
+                  <div className="v3-cap-icon">
+                    {index === 0 ? <Globe2 size={20} /> :
+                     index === 1 ? <Code2 size={20} /> :
+                     index === 2 ? <ShoppingCart size={20} /> :
+                     index === 3 ? <Zap size={20} /> :
+                     index === 4 ? <BarChart3 size={20} /> :
+                     <Headphones size={20} />}
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="v3-section v3-about">
+          <div className="v3-container v3-about-grid">
+            <div className="v3-about-image">
+              <img src={company.aboutImage} alt="Our digital solutions" />
+              <div className="v3-image-badge">
+                <Rocket size={17} />
+                <span><strong>Build.</strong> Improve. Support.</span>
+              </div>
+            </div>
+
+            <div className="v3-about-copy">
+              <span className="v3-label">ABOUT OUR APPROACH</span>
+              <h2>Good technology should make business easier.</h2>
+              <p>
+                We begin with the requirement, not the software. That means
+                understanding your process, designing the right experience,
+                building the solution and staying available when it needs support.
               </p>
 
-
-              <div className="contact-details">
-
-                <div>
-
-                  <Phone
-                    size={19}
-                  />
-
-                  <span>
-                    {company.phone}
-                  </span>
-
-                </div>
-
-
-                <div>
-
-                  <Mail
-                    size={19}
-                  />
-
-                  <span>
-                    {company.email}
-                  </span>
-
-                </div>
-
+              <div className="v3-principles">
+                {(company.reasons || []).slice(0, 4).map((reason, index) => (
+                  <div key={reason.title}>
+                    <span>0{index + 1}</span>
+                    <CheckCircle2 size={17} />
+                    <div>
+                      <strong>{reason.title}</strong>
+                      <p>{reason.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-
             </div>
-
-
-            <form
-              className="contact-form"
-              onSubmit={(event) => {
-
-                event.preventDefault()
-
-                alert(
-                  'Thank you. Connect this form to your backend or email service.'
-                )
-
-              }}
-            >
-
-              <div className="form-row">
-
-                <input
-                  required
-                  placeholder="Your name"
-                />
-
-                <input
-                  required
-                  type="email"
-                  placeholder="Email address"
-                />
-
-              </div>
-
-
-              <div className="form-row">
-
-                <input
-                  placeholder="Phone number"
-                />
-
-                <input
-                  placeholder="Company name"
-                />
-
-              </div>
-
-
-              <textarea
-                required
-                placeholder="Tell us about your requirement"
-                rows={5}
-              />
-
-
-              <button
-                className="button primary"
-                type="submit"
-              >
-                Send Enquiry
-
-                <ArrowRight
-                  size={18}
-                />
-
-              </button>
-
-            </form>
-
           </div>
-
         </section>
 
-      </main>
-
-
-      {/* ========================================================
-          FOOTER
-         ======================================================== */}
-
-      <footer className="footer">
-
-        <div className="container footer-grid">
-
-          <div>
-
-            <div className="footer-brand">
-              {company.shortName}
+        <section className="v3-industries">
+          <div className="v3-container">
+            <div className="v3-heading dark-heading">
+              <div>
+                <span className="v3-label light">BUSINESS CONTEXT</span>
+                <h2>Technology that adapts<br />to different businesses.</h2>
+              </div>
+              <p>
+                Retail, hospitality, services and growing businesses can
+                benefit from solutions shaped around their own workflow.
+              </p>
             </div>
 
+            <div className="v3-industry-grid">
+              {['Retail', 'Cafés & Restaurants', 'Supermarkets', 'Distributors', 'Service Businesses', 'Growing Businesses'].map((name, i) => (
+                <div key={name}>
+                  <span>0{i + 1}</span>
+                  <strong>{name}</strong>
+                  <ArrowRight size={16} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="v3-section v3-testimonials">
+          <div className="v3-container">
+            <div className="v3-heading">
+              <div>
+                <span className="v3-label">WORKING WITH US</span>
+                <h2>Built around requirements.<br />Supported beyond launch.</h2>
+              </div>
+              <p>
+                We value clear communication, practical delivery and
+                long-term software support.
+              </p>
+            </div>
+
+            <div className="v3-quote-grid">
+              {(company.testimonials || []).slice(0, 3).map(testimonial => (
+                <article key={testimonial.name + testimonial.role}>
+                  <Quote size={22} />
+                  <p>“{testimonial.quote}”</p>
+                  <strong>{testimonial.name}</strong>
+                  <span>{testimonial.role}</span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="v3-contact">
+          <div className="v3-container v3-contact-card">
+            <div className="v3-contact-copy">
+              <span className="v3-label light">START A PROJECT</span>
+              <h2>Have a requirement?<br /><span>Let's build it.</span></h2>
+              <p>
+                Tell us whether you need a website, custom software, Smart
+                Billing POS or ongoing software support.
+              </p>
+
+              <div className="v3-contact-details">
+                <a href={`tel:${company.phone}`}><Phone size={17} /> {company.phone}</a>
+                <a href={`mailto:${company.email}`}><Mail size={17} /> {company.email}</a>
+              </div>
+            </div>
+
+            <form
+              className="v3-form"
+              onSubmit={event => {
+                event.preventDefault()
+                alert('Thank you. Connect this form to your backend or email service.')
+              }}
+            >
+              <div className="v3-form-title">
+                <span>PROJECT ENQUIRY</span>
+                <strong>Let's discuss your requirement.</strong>
+              </div>
+
+              <div className="v3-form-row">
+                <input required placeholder="Your name" />
+                <input required type="email" placeholder="Email address" />
+              </div>
+
+              <div className="v3-form-row">
+                <input placeholder="Phone number" />
+                <input placeholder="Company / business" />
+              </div>
+
+              <select defaultValue="">
+                <option value="" disabled>Select what you need</option>
+                <option>Smart Billing POS</option>
+                <option>Website Design & Development</option>
+                <option>Custom Software Development</option>
+                <option>Software Support & Maintenance</option>
+                <option>Other requirement</option>
+              </select>
+
+              <textarea required rows={5} placeholder="Briefly describe your requirement" />
+
+              <button className="v3-btn v3-btn-primary" type="submit">
+                Send Project Enquiry <ArrowRight size={17} />
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="v3-footer">
+        <div className="v3-container v3-footer-main">
+          <div>
+            <div className="v3-footer-brand">
+              <img src={company.logo} alt="" />
+              <strong>{company.shortName}</strong>
+            </div>
             <p>
-              {company.tagline}
+              Digital products, websites, custom software and dependable
+              software support for modern businesses.
             </p>
-
           </div>
 
-
-          <div>
-
-            <h4>
-              Company
-            </h4>
-
-            <button
-              onClick={() =>
-                scrollTo('about')
-              }
-            >
-              About
-            </button>
-
-            <button
-              onClick={() =>
-                scrollTo('services')
-              }
-            >
-              Services
-            </button>
-
-            <button
-              onClick={() =>
-                scrollTo('clients')
-              }
-            >
-              Clients
-            </button>
-
+          <div className="v3-footer-links">
+            <button onClick={() => scrollTo('solutions')}>Solutions</button>
+            <button onClick={() => scrollTo('services')}>Services</button>
+            <button onClick={() => scrollTo('about')}>About</button>
+            <button onClick={() => scrollTo('contact')}>Contact</button>
           </div>
-
-
-          <div>
-
-            <h4>
-              Contact
-            </h4>
-
-            <span>
-              {company.address}
-            </span>
-
-            <span>
-              {company.email}
-            </span>
-
-            <span>
-              {company.phone}
-            </span>
-
-          </div>
-
         </div>
 
-
-        <div className="container copyright">
-
-          © {new Date().getFullYear()}{' '}
-          {company.name}.
-          {' '}
-          All rights reserved.
-
+        <div className="v3-container v3-footer-bottom">
+          <span>© {new Date().getFullYear()} {company.name}. All rights reserved.</span>
+          <span>Digital technology for better business.</span>
         </div>
-
       </footer>
-
-    </div>
-  )
-}
-
-
-/* ============================================================
-   SECTION HEADING
-   ============================================================ */
-
-function SectionHeading({
-  label,
-  title,
-  text
-}: {
-  label: string
-  title: string
-  text: string
-}) {
-  return (
-    <div className="section-heading">
-
-      <span className="section-label">
-        {label}
-      </span>
-
-      <h2>
-        {title}
-      </h2>
-
-      <p>
-        {text}
-      </p>
-
     </div>
   )
 }
