@@ -3,14 +3,16 @@ import { useState } from 'react'
 import {
   ArrowRight,
   BarChart3,
-  BriefcaseBusiness,
+  Barcode,
+  Boxes,
   CheckCircle2,
-  Factory,
+  CreditCard,
   Mail,
   Menu,
+  Package,
   Phone,
   Quote,
-  Truck,
+  ShoppingCart,
   Users,
   X
 } from 'lucide-react'
@@ -18,10 +20,13 @@ import {
 import { company } from './config/company'
 
 const icons = {
-  briefcase: BriefcaseBusiness,
-  factory: Factory,
-  truck: Truck,
-  chart: BarChart3
+  billing: CreditCard,
+  inventory: Boxes,
+  barcode: Barcode,
+  reports: BarChart3,
+  products: Package,
+  customers: Users,
+  sales: ShoppingCart
 }
 
 export default function App() {
@@ -318,7 +323,7 @@ export default function App() {
                   const Icon =
                       icons[
                           service.icon as keyof typeof icons
-                          ] || BriefcaseBusiness
+                          ] || CreditCard
 
 
                   return (
