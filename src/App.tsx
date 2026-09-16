@@ -11,12 +11,12 @@ import {
   Globe2,
   Headphones,
   Mail,
+  MessageCircle,
   Menu,
   Package,
   Phone,
   Quote,
   Rocket,
-  Settings2,
   ShoppingCart,
   Sparkles,
   Users,
@@ -26,16 +26,6 @@ import {
 
 import { company } from './config/company'
 import './enterprise-v3.css'
-
-const iconMap = {
-  billing: CreditCard,
-  inventory: Boxes,
-  barcode: Barcode,
-  reports: BarChart3,
-  products: Package,
-  customers: Users,
-  sales: ShoppingCart
-}
 
 const serviceContent = [
   {
@@ -76,6 +66,38 @@ const capabilityContent = [
   ['Business Dashboards', 'Clear operational visibility through useful data and reporting.'],
   ['Technical Support', 'Ongoing maintenance and assistance when your software needs it.']
 ]
+
+
+const smartBillingFeatures = [
+  {
+    number: '01',
+    icon: CreditCard,
+    title: 'Fast Billing',
+    description: 'Create bills quickly with a clean POS interface designed for busy business environments.'
+  },
+  {
+    number: '02',
+    icon: Boxes,
+    title: 'Accurate Inventory',
+    description: 'Keep track of available stock and reduce mistakes caused by manual inventory management.'
+  },
+  {
+    number: '03',
+    icon: Barcode,
+    title: 'Barcode Support',
+    description: 'Use barcode scanners to search and add products quickly during billing.'
+  },
+  {
+    number: '04',
+    icon: BarChart3,
+    title: 'Business Insights',
+    description: 'See sales performance, product movement and useful business reporting in one place.'
+  }
+]
+
+const smartBillingImage = '/images/smart-billing-pos.png'
+const whatsappUrl = `https://wa.me/${String(company.phone || '').replace(/\D/g, '')}?text=Hello%2C%20I%20would%20like%20to%20discuss%20a%20project`
+const companyAddress = `# 30, Shanmuga Garden, Near Asife Biryani, Vadakuthu, Neyveli - 607308`
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -284,18 +306,20 @@ export default function App() {
                     </button>
                   </div>
 
-                  <div className="v3-product-screen">
-                    <div className="v3-screen-bar"><i /><i /><i /><span>SMART BILLING</span></div>
-                    <div className="v3-screen-body">
-                      <div className="v3-screen-sidebar"><i /><i /><i /><i /><i /></div>
-                      <div className="v3-screen-main">
-                        <div className="v3-screen-title">Billing <small>Business Dashboard</small></div>
-                        <div className="v3-screen-metrics">
-                          <b /><b /><b />
-                        </div>
-                        <div className="v3-screen-table">
-                          <i /><i /><i /><i /><i />
-                        </div>
+                  <div className="v3-product-screen v3-real-product-screen">
+                    <div className="v3-real-image-bar">
+                      <span><i /><i /><i /></span>
+                      <strong>SMART BILLING · LIVE PRODUCT VIEW</strong>
+                      <em>POS</em>
+                    </div>
+                    <div className="v3-real-image-wrap">
+                      <img
+                        src={smartBillingImage}
+                        alt="Smart Billing point of sale application"
+                      />
+                      <div className="v3-image-overlay-badge">
+                        <Sparkles size={13} />
+                        Real product interface
                       </div>
                     </div>
                   </div>
@@ -310,7 +334,7 @@ export default function App() {
                       <span className="v3-service-number">{item.number}</span>
                       <div className="v3-service-icon"><Icon size={20} /></div>
                       <div>
-                        <span className="v3-label">{item.number === '02' ? 'SERVICE' : item.number === '03' ? 'SERVICE' : 'SERVICE'}</span>
+                        <span className="v3-label">SERVICE</span>
                         <h3>{item.title}</h3>
                         <p>{item.description}</p>
                       </div>
@@ -319,6 +343,24 @@ export default function App() {
                   )
                 })}
               </div>
+            </div>
+
+            <div className="v3-product-feature-grid">
+              {smartBillingFeatures.map(feature => {
+                const Icon = feature.icon
+                return (
+                  <article className="v3-product-feature-card" key={feature.title}>
+                    <div className="v3-product-feature-top">
+                      <span>{feature.number}</span>
+                      <div className="v3-product-feature-icon"><Icon size={18} /></div>
+                    </div>
+                    <span className="v3-label">SMART BILLING</span>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                    <div className="v3-product-feature-line" />
+                  </article>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -474,8 +516,16 @@ export default function App() {
         </section>
 
         <section id="contact" className="v3-contact">
+          <div className="v3-contact-orbit orbit-one" />
+          <div className="v3-contact-orbit orbit-two" />
+
           <div className="v3-container v3-contact-card">
             <div className="v3-contact-copy">
+              <div className="v3-contact-kicker">
+                <span className="v3-pulse" />
+                PROJECT STUDIO · OPEN FOR NEW WORK
+              </div>
+
               <span className="v3-label light">START A PROJECT</span>
               <h2>Have a requirement?<br /><span>Let's build it.</span></h2>
               <p>
@@ -484,8 +534,35 @@ export default function App() {
               </p>
 
               <div className="v3-contact-details">
-                <a href={`tel:${company.phone}`}><Phone size={17} /> {company.phone}</a>
-                <a href={`mailto:${company.email}`}><Mail size={17} /> {company.email}</a>
+                <a href={`tel:${company.phone}`}>
+                  <span className="v3-contact-detail-icon"><Phone size={17} /></span>
+                  <span><small>CALL US</small><strong>{company.phone}</strong></span>
+                  <ArrowRight size={15} />
+                </a>
+                <a href={`mailto:${company.email}`}>
+                  <span className="v3-contact-detail-icon"><Mail size={17} /></span>
+                  <span><small>EMAIL</small><strong>{company.email}</strong></span>
+                  <ArrowRight size={15} />
+                </a>
+                <a href={whatsappUrl} target="_blank" rel="noreferrer">
+                  <span className="v3-contact-detail-icon v3-whatsapp-icon"><MessageCircle size={17} /></span>
+                  <span><small>WHATSAPP</small><strong>Chat with us</strong></span>
+                  <ArrowRight size={15} />
+                </a>
+              </div>
+
+              <div className="v3-contact-address">
+                <span className="v3-contact-address-pin">⌖</span>
+                <div>
+                  <small>OFFICE ADDRESS</small>
+                  <strong>{companyAddress}</strong>
+                </div>
+              </div>
+
+              <div className="v3-contact-trust">
+                <span><CheckCircle2 size={14} /> Clear requirements</span>
+                <span><CheckCircle2 size={14} /> Practical delivery</span>
+                <span><CheckCircle2 size={14} /> Ongoing support</span>
               </div>
             </div>
 
@@ -499,32 +576,44 @@ export default function App() {
               <div className="v3-form-title">
                 <span>PROJECT ENQUIRY</span>
                 <strong>Let's discuss your requirement.</strong>
+                <small>Usually the first step is simply understanding what you need.</small>
               </div>
 
               <div className="v3-form-row">
-                <input required placeholder="Your name" />
-                <input required type="email" placeholder="Email address" />
+                <label><span>Your name</span><input required placeholder="Your name" /></label>
+                <label><span>Email address</span><input required type="email" placeholder="name@company.com" /></label>
               </div>
 
               <div className="v3-form-row">
-                <input placeholder="Phone number" />
-                <input placeholder="Company / business" />
+                <label><span>Phone number</span><input placeholder="+91 ..." /></label>
+                <label><span>Company / business</span><input placeholder="Business name" /></label>
               </div>
 
-              <select defaultValue="">
-                <option value="" disabled>Select what you need</option>
-                <option>Smart Billing POS</option>
-                <option>Website Design & Development</option>
-                <option>Custom Software Development</option>
-                <option>Software Support & Maintenance</option>
-                <option>Other requirement</option>
-              </select>
+              <label className="v3-form-full">
+                <span>What do you need?</span>
+                <select defaultValue="">
+                  <option value="" disabled>Select a service</option>
+                  <option>Smart Billing POS</option>
+                  <option>Website Design & Development</option>
+                  <option>Custom Software Development</option>
+                  <option>Software Support & Maintenance</option>
+                  <option>Other requirement</option>
+                </select>
+              </label>
 
-              <textarea required rows={5} placeholder="Briefly describe your requirement" />
+              <label className="v3-form-full">
+                <span>Requirement</span>
+                <textarea required rows={5} placeholder="Briefly describe your requirement" />
+              </label>
 
-              <button className="v3-btn v3-btn-primary" type="submit">
+              <button className="v3-btn v3-btn-primary v3-form-submit" type="submit">
                 Send Project Enquiry <ArrowRight size={17} />
               </button>
+
+              <div className="v3-form-foot">
+                <ShieldDot />
+                <span>Your enquiry stays focused on the project you want to build.</span>
+              </div>
             </form>
           </div>
         </section>
@@ -557,5 +646,13 @@ export default function App() {
         </div>
       </footer>
     </div>
+  )
+}
+
+function ShieldDot() {
+  return (
+    <span className="v3-shield-dot">
+      <CheckCircle2 size={14} />
+    </span>
   )
 }
