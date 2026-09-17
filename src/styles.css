@@ -1128,3 +1128,74 @@ button {
     }
 
 }
+
+.brandWords {
+    gap: 7px;
+    min-width: 290px;
+    transition: transform .35s ease;
+}
+
+.brandWords:hover {
+    transform: translateY(-2px);
+}
+
+.brandWords strong {
+    font-size: 20px;
+    letter-spacing: .055em;
+    color: transparent;
+    background: linear-gradient(
+            90deg,
+            #0d4774 0%,
+            #0b8da6 52%,
+            #18a9ad 78%,
+            #b78342 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 2px 14px rgba(28,111,142,.08);
+    transition:
+            letter-spacing .35s ease,
+            filter .35s ease,
+            text-shadow .35s ease;
+}
+
+.brandWords:hover strong {
+    letter-spacing: .065em;
+    filter: brightness(1.12);
+    text-shadow:
+            0 4px 18px rgba(11,141,166,.20);
+}
+
+.brandWords strong::after {
+    width: 58px;
+    height: 3px;
+    margin-top: 9px;
+    background: linear-gradient(
+            90deg,
+            #0a83a7,
+            #53c6d0,
+            #c08a45
+    );
+    transition:
+            width .35s ease,
+            box-shadow .35s ease;
+}
+
+.brandWords:hover strong::after {
+    width: 82px;
+    box-shadow: 0 3px 12px rgba(24,169,173,.25);
+}
+
+.brandWords small {
+    color: #5e7c8d;
+    letter-spacing: .13em;
+    transition:
+            color .35s ease,
+            letter-spacing .35s ease;
+}
+
+.brandWords:hover small {
+    color: #0b7893;
+    letter-spacing: .145em;
+}
+
