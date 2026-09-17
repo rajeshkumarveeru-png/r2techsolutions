@@ -97,7 +97,11 @@ const smartBillingFeatures = [
 
 const smartBillingImage = '/images/smart-billing-pos.png'
 const whatsappUrl = `https://wa.me/${String(company.phone || '').replace(/\D/g, '')}?text=Hello%2C%20I%20would%20like%20to%20discuss%20a%20project`
-const companyAddress = `# 30, Shanmuga Garden, Near Asife Biryani, Vadakuthu, Neyveli - 607308`
+const companyAddress = `No# 30,
+Shanmuga Garden,
+Near Asife Biryani,
+Vadakuthu,
+Neyveli - 607308`
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -121,8 +125,8 @@ export default function App() {
       <header className="v3-header">
         <div className="v3-container v3-nav">
           <button className="v3-brand" onClick={() => scrollTo('home')}>
-            <img src={company.logo} alt={`${company.name} logo`} />
-            <span>
+            <img src={company.logoPlain} alt={`${company.name} logo`} />
+            <span className="brandWords">
               <strong>{company.shortName}</strong>
               <small>Digital Solutions</small>
             </span>
@@ -526,7 +530,7 @@ export default function App() {
                 PROJECT STUDIO · OPEN FOR NEW WORK
               </div>
 
-              <span className="v3-label light">START A PROJECT</span>
+              <span className="v3-label light"> START A PROJECT</span>
               <h2>Have a requirement?<br /><span>Let's build it.</span></h2>
               <p>
                 Tell us whether you need a website, custom software, Smart
@@ -555,7 +559,14 @@ export default function App() {
                 <span className="v3-contact-address-pin">⌖</span>
                 <div>
                   <small>OFFICE ADDRESS</small>
-                  <strong>{companyAddress}</strong>
+                  <strong>
+                    {companyAddress.split('\n').map((line, index) => (
+                        <span key={index}>
+        {line}
+                          <br />
+      </span>
+                    ))}
+                  </strong>
                 </div>
               </div>
 

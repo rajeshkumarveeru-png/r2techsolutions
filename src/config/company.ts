@@ -7,6 +7,7 @@ export type CompanyConfig = {
   aboutTitle: string
   aboutText: string
   logo: string
+  logoPlain:string
   heroImage: string
   aboutImage: string
   phone: string
@@ -96,6 +97,9 @@ export const company: CompanyConfig = {
 
   logo:
     '/images/r2.png',
+
+  logoPlain:
+      '/images/r2-plain.png',
 
   heroImage:
     'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=85',
