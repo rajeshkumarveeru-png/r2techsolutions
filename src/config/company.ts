@@ -116,7 +116,7 @@ export const company: CompanyConfig = {
     '+91 97919 19500',
 
   email:
-    'rtwotechsolutions@gmail.com',
+    'info@r2techsolution.com',
 
   address:
     'Tamil Nadu, India',
