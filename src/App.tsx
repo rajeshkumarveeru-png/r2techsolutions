@@ -40,30 +40,26 @@ const serviceContent = [
     {
         number: '01',
         icon: Globe2,
-        title: 'Website Design & Development',
-        description:
-            'Professional business websites, landing pages and responsive digital experiences designed around your brand and customers.'
+        title: 'Web Design & Development',
+        description: 'Professional business websites, corporate sites, landing pages and responsive web experiences built around your brand.'
     },
     {
         number: '02',
         icon: Code2,
-        title: 'Custom Software Development',
-        description:
-            'Purpose-built business applications, workflow systems, integrations and automation tailored to your requirements.'
+        title: 'Custom Application Development',
+        description: 'Purpose-built web and mobile applications, business workflows, integrations and automation tailored to your requirements.'
     },
     {
         number: '03',
-        icon: ShoppingCart,
-        title: 'POS & Business Products',
-        description:
-            'Smart Billing is one of our products — a practical platform for billing, inventory, customers, payments and business reports.'
+        icon: BriefcaseBusiness,
+        title: 'Business Software Solutions',
+        description: 'Practical products and custom systems for billing, POS, inventory, customers, reporting and everyday business operations.'
     },
     {
         number: '04',
         icon: Headphones,
-        title: 'Software Support & Maintenance',
-        description:
-            'Reliable technical support, troubleshooting, maintenance, upgrades and continuous improvements after launch.'
+        title: 'Support & Maintenance',
+        description: 'Application support, troubleshooting, maintenance, upgrades, enhancements and dependable technical assistance after launch.'
     }
 ]
 
@@ -160,7 +156,7 @@ export default function App() {
                     >
                         {[
                             ['home', 'Home'],
-                            ['solutions', 'Solutions'],
+                            ['solutions', 'Products'],
                             ['services', 'Services'],
                             ['clients', 'Clients'],
                             ['about', 'About'],
@@ -210,15 +206,13 @@ export default function App() {
                             </div>
 
                             <h1>
-                                Technology
+                                Digital solutions
                                 <span>built around</span>
                                 your business.
                             </h1>
 
                             <p>
-                                We design websites, build custom software, develop business
-                                products and provide dependable technical support — all with
-                                one focus: making technology useful for your business.
+                                We design professional websites, build custom applications, develop business software products and provide dependable support — with a simple focus: useful technology for your business.
                             </p>
 
                             <div className="v3-actions">
@@ -314,12 +308,11 @@ export default function App() {
                     <div className="v3-container">
                         <div className="v3-heading">
                             <div>
-                                <span className="v3-label">SOLUTIONS</span>
-                                <h2>One technology partner.<br />Multiple ways to move forward.</h2>
+                                <span className="v3-label">OUR PRODUCTS</span>
+                                <h2>Simple software for<br />real business needs.</h2>
                             </div>
                             <p>
-                                Start with a product, commission a website, build custom
-                                software or bring us in to support an existing system.
+                                Explore our current product and the platforms we are building for different business domains.
                             </p>
                         </div>
 
@@ -333,7 +326,7 @@ export default function App() {
                                 <div className="v3-feature-content">
                                     <div>
                                         <div className="v3-feature-icon"><ShoppingCart size={25} /></div>
-                                        <h3>Smart Billing POS</h3>
+                                        <h3>SmartBill</h3>
                                         <p>
                                             A modern business billing platform for fast checkout,
                                             inventory, customers, payments, QR/barcode scanning and reports.
@@ -347,7 +340,7 @@ export default function App() {
 
                                         <div className="v3-product-actions">
                                             <button type="button" className="v3-arrow-btn" onClick={() => scrollTo('contact')}>
-                                                Enquire about Smart Billing <ArrowRight size={16} />
+                                                Enquire about SmartBill <ArrowRight size={16} />
                                             </button>
                                             <button type="button" className="v3-demo-mini-btn" onClick={requestDemo}>
                                                 <CalendarCheck size={15} />
@@ -405,7 +398,7 @@ export default function App() {
                                             <span>{feature.number}</span>
                                             <div className="v3-product-feature-icon"><Icon size={18} /></div>
                                         </div>
-                                        <span className="v3-label">SMART BILLING</span>
+                                        <span className="v3-label">SMARTBILL</span>
                                         <h3>{feature.title}</h3>
                                         <p>{feature.description}</p>
                                         <span className="v3-corner-action"><ArrowUpRight size={13} /></span>
@@ -413,6 +406,49 @@ export default function App() {
                                     </article>
                                 )
                             })}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="v3-section v3-product-portfolio" id="product-portfolio">
+                    <div className="v3-container">
+                        <div className="v3-heading">
+                            <div>
+                                <span className="v3-label">PRODUCT PORTFOLIO</span>
+                                <h2>One company.<br />Multiple business solutions.</h2>
+                            </div>
+                            <p>
+                                SmartBill is our current business software product. Jewell360 and Textile360 are planned product platforms for specialised business domains.
+                            </p>
+                        </div>
+
+                        <div className="r2-product-grid">
+                            <article className="r2-product-card r2-product-primary">
+                                <div className="r2-product-top"><span>01</span><b>AVAILABLE</b></div>
+                                <div className="r2-product-icon"><ShoppingCart size={24} /></div>
+                                <h3>SmartBill</h3>
+                                <p>Fast billing, POS, inventory, customers, expenses, reports and business management in one practical platform.</p>
+                                <div className="r2-product-tags"><span>POS</span><span>Billing</span><span>Inventory</span><span>Reports</span></div>
+                                <button onClick={() => scrollTo('contact')}>Request a Demo <ArrowRight size={16} /></button>
+                            </article>
+
+                            <article className="r2-product-card">
+                                <div className="r2-product-top"><span>02</span><b className="coming">COMING SOON</b></div>
+                                <div className="r2-product-icon gold"><Sparkles size={24} /></div>
+                                <h3>Jewell360</h3>
+                                <p>A dedicated jewellery business platform planned for jewellery billing, inventory, customer management and specialised business workflows.</p>
+                                <div className="r2-product-tags"><span>Jewellery</span><span>Billing</span><span>Stock</span><span>Reports</span></div>
+                                <button onClick={() => scrollTo('contact')}>Discuss the Product <ArrowRight size={16} /></button>
+                            </article>
+
+                            <article className="r2-product-card">
+                                <div className="r2-product-top"><span>03</span><b className="coming">COMING SOON</b></div>
+                                <div className="r2-product-icon violet"><Package size={24} /></div>
+                                <h3>Textile360</h3>
+                                <p>A planned textile and garment business platform for products, billing, inventory, customers, purchases, sales and reporting.</p>
+                                <div className="r2-product-tags"><span>Textile</span><span>Products</span><span>Inventory</span><span>Sales</span></div>
+                                <button onClick={() => scrollTo('contact')}>Discuss the Product <ArrowRight size={16} /></button>
+                            </article>
                         </div>
                     </div>
                 </section>
@@ -634,6 +670,11 @@ export default function App() {
                                     <span><small>CALL US</small><strong>{company.phone}</strong></span>
                                     <ArrowRight size={15} />
                                 </a>
+                                <a className="v3-contact-detail" href={`tel:${company.secondaryPhone}`}>
+                                    <span className="v3-contact-detail-icon"><Phone size={17} /></span>
+                                    <span><small>CALL US</small><strong>{company.secondaryPhone}</strong></span>
+                                    <ArrowRight size={15} />
+                                </a>
                                 <a className="v3-contact-detail" href={`mailto:${company.email}`}>
                                     <span className="v3-contact-detail-icon"><Mail size={17} /></span>
                                     <span><small>EMAIL</small><strong>{company.email}</strong></span>
@@ -695,8 +736,8 @@ export default function App() {
                                 <span>What do you need?</span>
                                 <select defaultValue="">
                                     <option value="" disabled>Select a service</option>
-                                    <option>Smart Billing Demo</option>
-                                    <option>Smart Billing POS</option>
+                                    <option>SmartBill Demo</option>
+                                    <option>SmartBill POS</option>
                                     <option>Website Design & Development</option>
                                     <option>Custom Software Development</option>
                                     <option>Software Support & Maintenance</option>
@@ -736,7 +777,7 @@ export default function App() {
                     </div>
 
                     <div className="v3-footer-links">
-                        <button onClick={() => scrollTo('solutions')}>Solutions</button>
+                        <button onClick={() => scrollTo('solutions')}>Products</button>
                         <button onClick={() => scrollTo('services')}>Services</button>
                         <button onClick={() => scrollTo('about')}>About</button>
                         <button onClick={() => scrollTo('contact')}>Contact</button>
