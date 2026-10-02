@@ -11,6 +11,7 @@ export type CompanyConfig = {
   heroImage: string
   aboutImage: string
   phone: string
+  secondaryPhone: string
   email: string
   address: string
 
@@ -66,7 +67,7 @@ export const company: CompanyConfig = {
   shortName: 'R2Tech Solutions',
 
   tagline:
-    'Smart POS. Simple Billing. Better Business.',
+    'Smart solutions for growing businesses.',
 
 
   /* ============================================================
@@ -74,10 +75,10 @@ export const company: CompanyConfig = {
      ============================================================ */
 
   heroTitle:
-    'Powerful POS and billing software built for modern businesses.',
+    'Digital solutions built for modern businesses.',
 
   heroText:
-    'BIZ360 helps businesses manage billing, products, inventory, customers and sales from one simple platform. Create invoices faster, track stock accurately and understand your business with powerful reports.',
+    'Professional websites, custom applications, business software products and dependable support — built around the way your business works.',
 
 
   /* ============================================================
@@ -85,10 +86,10 @@ export const company: CompanyConfig = {
      ============================================================ */
 
   aboutTitle:
-    'Everything you need to run your business in one place.',
+    'Technology that makes business simpler.',
 
   aboutText:
-    'BIZ360 is a complete POS and business management platform designed for retail shops, supermarkets, wholesalers and growing businesses. From everyday billing to inventory control and sales insights, BIZ360 helps you manage your business with less manual work and better visibility.',
+    'R2Tech Solutions builds professional websites, custom applications and practical business software products, with ongoing technical support for businesses that want technology to work simply and reliably.',
 
 
   /* ============================================================
@@ -114,6 +115,9 @@ export const company: CompanyConfig = {
 
   phone:
     '+91 97919 19500',
+
+  secondaryPhone:
+    '+91 80567 12993',
 
   email:
     'info@r2techsolution.com',
