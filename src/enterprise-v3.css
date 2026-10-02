@@ -4907,3 +4907,104 @@ img { max-width: 100%; }
     .r2-product-grid { grid-template-columns: 1fr; }
     .r2-product-card { min-height: auto; }
 }
+
+
+/* ============================================================
+   SIMPLE PRODUCT FAMILY
+   ============================================================ */
+
+.r2-product-grid-five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.r2-product-grid-five .r2-product-card {
+    min-height: 390px;
+    display: flex;
+    flex-direction: column;
+}
+
+.r2-product-grid-five .r2-product-card p {
+    min-height: 58px;
+}
+
+.r2-product-grid-five .r2-product-tags {
+    margin-top: auto;
+    margin-bottom: 22px;
+}
+
+.r2-product-grid-five .r2-product-card button {
+    white-space: nowrap;
+}
+
+.r2-product-icon.hospitality {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.r2-product-icon.lodge {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.v3-footer-links strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.v3-footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.v3-footer-links a:hover {
+    color: #fff;
+}
+
+@media (max-width: 1100px) {
+    .r2-product-grid-five {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .r2-product-grid-five {
+        grid-template-columns: 1fr;
+    }
+
+    .r2-product-grid-five .r2-product-card {
+        min-height: auto;
+    }
+}
+
+/* Final simple footer layout */
+.v3-footer-main {
+    grid-template-columns: minmax(220px, 1.2fr) repeat(3, minmax(120px, auto));
+    align-items: start;
+}
+.v3-footer-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+.v3-footer-links button {
+    padding: 4px 0;
+}
+@media (max-width: 900px) {
+    .v3-footer-main {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media (max-width: 600px) {
+    .v3-footer-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+}
