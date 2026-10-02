@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {
   ArrowRight, ArrowUpRight, Barcode, BarChart3, Boxes, CheckCircle2,
-  Code2, CreditCard, Globe2, Headphones, HeartPulse, HardDrive, Menu,
+  Building2, Code2, CreditCard, Globe2, Headphones, HeartPulse, HardDrive, Menu,
   MessageCircle, Package, Phone, ShoppingCart, Smartphone, Sparkles,
   Store, Users, X, Zap
 } from 'lucide-react'
@@ -15,6 +15,8 @@ const products = [
   { icon: ShoppingCart, name: 'SmartBill', tag: 'AVAILABLE', title: 'Smart billing. Simple business.', text: 'A practical billing, POS, inventory and business management platform for growing businesses.', features: ['GST billing & payments', 'Inventory & stock control', 'Customers & expenses', 'Reports & WhatsApp invoice'] },
   { icon: Sparkles, name: 'Jewell360', tag: 'COMING SOON', title: 'Jewellery business management.', text: 'A focused platform planned for jewellery stores with billing, stock, customer and business operations.', features: ['Jewellery billing', 'Stock management', 'Customer management', 'Reports & operations'] },
   { icon: Package, name: 'Textile360', tag: 'COMING SOON', title: 'Textile business management.', text: 'A dedicated software platform planned for textile and garment businesses.', features: ['Product management', 'Sales & billing', 'Inventory control', 'Customers & reports'] },
+  { icon: Building2, name: 'Resto/Hotel360', tag: 'COMING SOON', title: 'Restaurant & hotel management.', text: 'A future platform for restaurants and hotels covering billing, operations, inventory, customers and business reporting.', features: ['Restaurant & hotel billing', 'Table & room operations', 'Inventory management', 'Reports & business control'] },
+  { icon: Store, name: 'Lodge360', tag: 'COMING SOON', title: 'Lodge management software.', text: 'A planned solution for lodges and accommodation businesses to manage bookings, guests, rooms and daily operations.', features: ['Room & booking management', 'Guest management', 'Check-in & check-out', 'Reports & operations'] },
 ]
 
 const services = [
@@ -22,6 +24,7 @@ const services = [
   { icon: Code2, title: 'Custom Application Development', text: 'Business applications, workflow systems, integrations and automation built around the way your business actually works.' },
   { icon: ShoppingCart, title: 'Business Software Solutions', text: 'Billing, POS, inventory and management products designed for practical day-to-day business operations.' },
   { icon: Headphones, title: 'Support & Maintenance', text: 'Ongoing technical support, troubleshooting, upgrades, enhancements and maintenance after your application or website goes live.' },
+  { icon: Smartphone, title: 'Mobile App Development', text: 'Android and iOS-ready mobile applications for business workflows, customer experiences, field operations and connected software systems.' },
 ]
 
 const clients = [
