@@ -12,27 +12,27 @@ type ServicesProps = {
 /* title + description are your existing copy; "points" are short, process-level notes (edit freely) */
 const SERVICES = [
     {
-        number: '01', icon: Globe2, title: 'Web Design & Development',
+        number: '01', tone: 'blue', icon: Globe2, title: 'Web Design & Development',
         description: 'Professional websites for businesses and brands.',
         points: ['Clear structure that explains your business', 'Layouts that work on phones and desktops', 'Enquiry forms and contact options']
     },
     {
-        number: '02', icon: Code2, title: 'Custom Application Development',
+        number: '02', tone: 'violet', icon: Code2, title: 'Custom Application Development',
         description: 'Custom web applications built around your business needs.',
         points: ['Planned around your own workflow', 'Screens designed for daily use', 'Delivered, explained and supported']
     },
     {
-        number: '03', icon: BriefcaseBusiness, title: 'Business Software Solutions',
+        number: '03', tone: 'amber', icon: BriefcaseBusiness, title: 'Business Software Solutions',
         description: 'Billing, POS, inventory and business management solutions.',
         points: ['Billing and POS', 'Inventory and stock control', 'Customers, payments and reports']
     },
     {
-        number: '04', icon: Smartphone, title: 'Mobile App Development',
+        number: '04', tone: 'rose', icon: Smartphone, title: 'Mobile App Development',
         description: 'Mobile applications for customers, teams and business operations.',
         points: ['Apps for your customers or your team', 'Connected to your business data', 'Built to be maintained']
     },
     {
-        number: '05', icon: Headphones, title: 'Support & Maintenance',
+        number: '05', tone: 'emerald', icon: Headphones, title: 'Support & Maintenance',
         description: 'Ongoing support, updates, fixes and improvements.',
         points: ['Fixes and updates', 'Improvements as your needs grow', 'A real person to call']
     }
@@ -71,7 +71,7 @@ export function Services({scrollTo, enquire}: ServicesProps) {
                     <ul className="rv-service-quick" aria-label="Jump to a service">
                         {SERVICES.map((s, i) => (
                             <li key={s.title}>
-                                <button type="button" className={open === i ? 'on' : ''} onClick={() => { setOpen(i); rows.current[i]?.scrollIntoView({block: 'nearest', behavior: 'smooth'}) }}>
+                                <button type="button" className={`tone-${s.tone}${open === i ? ' on' : ''}`} aria-label={`Open ${s.title}`} onClick={() => { setOpen(i); rows.current[i]?.scrollIntoView({block: 'nearest', behavior: 'smooth'}) }}>
                                     {s.number}
                                 </button>
                             </li>
@@ -84,7 +84,7 @@ export function Services({scrollTo, enquire}: ServicesProps) {
                         const Icon = s.icon
                         const isOpen = open === i
                         return (
-                            <article key={s.title} className={`rv-service${isOpen ? ' open' : ''}`} onMouseMove={spotlight}>
+                            <article key={s.title} className={`rv-service tone-${s.tone}${isOpen ? ' open' : ''}`} onMouseMove={spotlight}>
                                 <button
                                     ref={el => { rows.current[i] = el }}
                                     type="button"

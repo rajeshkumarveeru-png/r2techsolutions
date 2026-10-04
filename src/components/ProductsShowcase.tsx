@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type ReactElement} from 'react'
+import {useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type ReactElement} from 'react'
 import {
     ArrowRight,
     BarChart3,
@@ -16,10 +16,10 @@ import {
     ScanLine,
     ShoppingCart,
     Sparkles,
-    Store,
-    Users
+    Store
 } from 'lucide-react'
 import {company} from '../config/company'
+import {IncludedBento} from './IncludedBento'
 import '../css/products-v4.css'
 
 type Props = {
@@ -121,14 +121,6 @@ function useReveal<T extends HTMLElement>() {
         return () => io.disconnect()
     }, [])
     return [ref, visible] as const
-}
-
-/** writes --mx/--my (cursor position inside the card) so CSS can paint a spotlight under the pointer */
-const spotlight = (event: MouseEvent<HTMLElement>) => {
-    const el = event.currentTarget
-    const rect = el.getBoundingClientRect()
-    el.style.setProperty('--mx', `${event.clientX - rect.left}px`)
-    el.style.setProperty('--my', `${event.clientY - rect.top}px`)
 }
 
 const readWaitlist = (): Record<string, string> => {
@@ -250,6 +242,16 @@ function FeatureExplorer() {
         setActive(i)
         setView('mock')
     }
+
+    // the "What's included" cards can jump to a tab of this preview: window.dispatchEvent(new CustomEvent('r2:select-feature', {detail: 'inventory'}))
+    useEffect(() => {
+        const onSelect = (event: Event) => {
+            const index = FEATURES.findIndex(f => f.key === String((event as CustomEvent).detail ?? ''))
+            if (index >= 0) choose(index)
+        }
+        window.addEventListener('r2:select-feature', onSelect)
+        return () => window.removeEventListener('r2:select-feature', onSelect)
+    }, [])
     const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
         const last = FEATURES.length - 1
         let next = active
@@ -414,6 +416,15 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
     const Icon = product.icon
     const isSmartBill = product.key === 'smartbill'
 
+    /** from a "What's included" card: open SmartBill, select that preview tab and scroll up to it */
+    const previewFeature = (key: string) => {
+        window.dispatchEvent(new CustomEvent('r2:select-product', {detail: 'smartbill'}))
+        window.setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('r2:select-feature', {detail: key}))
+            document.querySelector('.pv-stage')?.scrollIntoView({behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center'})
+        }, 80)
+    }
+
     const onKey = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
         const last = PRODUCTS.length - 1
         let next = selected
@@ -502,21 +513,7 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
                         <span className="v3-label">WHAT'S INCLUDED</span>
                         <h3>Everything SmartBill gives you</h3>
                     </div>
-                    <div className="pv-grid">
-                        {company.reasons.map((feature, i) => {
-                            const icons = [CreditCard, Boxes, Barcode, BarChart3, Users, Sparkles]
-                            const FIcon = icons[i % icons.length]
-                            return (
-                                <article key={feature.title} className="pv-card" onMouseMove={spotlight} style={{'--i': i} as CSSProperties}>
-                                    <span className="pv-card-no">{String(i + 1).padStart(2, '0')}</span>
-                                    <span className="pv-card-icon"><FIcon size={19}/></span>
-                                    <h4>{feature.title}</h4>
-                                    <p>{feature.description}</p>
-                                    <span className="pv-card-line"/>
-                                </article>
-                            )
-                        })}
-                    </div>
+                    <IncludedBento onPreview={previewFeature} onAsk={requestDemo}/>
                 </div>
 
                 {/* ------------ closing call to action ------------ */}

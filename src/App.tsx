@@ -12,6 +12,7 @@ import {Footer} from './components/site/Footer'
 import {prefersReducedMotion, useActiveSection, type EnquiryPrefill} from './components/site/shared'
 import './enterprise-v3.css'
 import './css/site-v4.css'
+import './css/sections-v5.css'
 
 /*
  * Optional: set VITE_ENQUIRY_ENDPOINT in your .env file (for example a Formspree / Getform URL or your own API)
@@ -53,9 +54,9 @@ export default function App() {
                 <Ticker/>
                 <ProductsShowcase scrollTo={scrollTo} requestDemo={requestDemo}/>
                 <Services scrollTo={scrollTo} enquire={enquire}/>
-                <Clients/>
+                <Clients enquire={enquire}/>
                 <Industries enquire={enquire}/>
-                <About/>
+                <About enquire={enquire}/>
                 <Contact prefill={prefill} endpoint={enquiryEndpoint}/>
             </main>
 
