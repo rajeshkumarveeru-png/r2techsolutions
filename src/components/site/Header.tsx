@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState, type CSSProperties} from 'react'
+import {useEffect, useLayoutEffect, useRef, useState, type CSSProperties} from 'react'
 import {ArrowRight, ArrowUp, Mail, Menu, MessageCircle, Phone, X} from 'lucide-react'
 import {company} from '../../config/company'
 import {Logo, useScrollState, waLink} from './shared'
@@ -23,6 +23,24 @@ export function Header({active, scrollTo}: HeaderProps) {
     const [open, setOpen] = useState(false)
     const burgerRef = useRef<HTMLButtonElement>(null)
     const drawerRef = useRef<HTMLDivElement>(null)
+    const linksRef = useRef<HTMLElement>(null)
+
+    // one pill glides to the active link (position written as CSS variables; re-measured on resize / font load)
+    useLayoutEffect(() => {
+        const nav = linksRef.current
+        if (!nav) return
+        const place = () => {
+            const on = nav.querySelector<HTMLElement>('button.on')
+            nav.style.setProperty('--ind-x', `${on ? on.offsetLeft : 0}px`)
+            nav.style.setProperty('--ind-w', `${on ? on.offsetWidth : 0}px`)
+            nav.classList.toggle('has-ind', !!on)
+        }
+        place()
+        if (typeof ResizeObserver === 'undefined') return
+        const ro = new ResizeObserver(place)
+        ro.observe(nav)
+        return () => ro.disconnect()
+    }, [active])
 
     // drawer: lock page scroll, close with Esc, move focus inside and back again
     useEffect(() => {
@@ -67,7 +85,8 @@ export function Header({active, scrollTo}: HeaderProps) {
                         <span className="rv-brand-words"><strong>{company.shortName}</strong><small>Digital Solutions</small></span>
                     </button>
 
-                    <nav className="rv-links" aria-label="Primary navigation">
+                    <nav className="rv-links" aria-label="Primary navigation" ref={linksRef}>
+                        <i className="rv-links-ind" aria-hidden="true"/>
                         {NAV.map(([id, label]) => (
                             <button key={id} type="button" className={active === id ? 'on' : ''} aria-current={active === id ? 'true' : undefined} onClick={() => scrollTo(id)}>
                                 <span>{label}</span>

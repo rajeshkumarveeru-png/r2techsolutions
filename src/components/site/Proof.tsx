@@ -4,7 +4,7 @@ import {
     Quote, ShoppingCart, Smartphone, Store, TrendingUp
 } from 'lucide-react'
 import {company} from '../../config/company'
-import {prefersReducedMotion, spotlight, useReveal} from './shared'
+import {prefersReducedMotion, tilt, tiltReset, useReveal} from './shared'
 
 const CLIENTS = [
     {name: 'MadeHealthcare', meta: 'CLIENT · HEALTHCARE SOLUTIONS', industry: 'Healthcare', tone: 'teal', icon: HeartPulse},
@@ -81,7 +81,7 @@ export function Clients({enquire}: {enquire: (service: string, message?: string)
                                         const Icon = c.icon
                                         const dim = filter !== 'all' && filter !== c.industry
                                         return (
-                                            <article className={`rv5-client tone-${c.tone}${dim ? ' dim' : ''}${filter === c.industry ? ' hit' : ''}`} key={`${group}-${c.name}`} onMouseMove={spotlight}>
+                                            <article className={`rv5-client rv-tilt tone-${c.tone}${dim ? ' dim' : ''}${filter === c.industry ? ' hit' : ''}`} key={`${group}-${c.name}`} onMouseMove={tilt} onMouseLeave={tiltReset}>
                                                 <span className="rv5-client-no">0{CLIENTS.indexOf(c) + 1}</span>
                                                 <span className="rv5-client-mark"><Icon size={22} strokeWidth={1.9}/></span>
                                                 <div className="rv5-client-text"><small>{c.meta}</small><h3>{c.name}</h3></div>
@@ -161,7 +161,7 @@ export function Clients({enquire}: {enquire: (service: string, message?: string)
    ------------------------------------------------------------------------------------------ */
 const INDUSTRIES = [
     {name: 'Retail', tone: 'sky', icon: Store, product: 'SmartBill', note: 'Billing, POS, inventory and barcode scanning for everyday selling.'},
-    {name: 'Cafés & Restaurants', tone: 'amber', icon: Coffee, product: 'Resto/Hotel360', note: 'Restaurant billing is planned in Resto/Hotel360. SmartBill covers billing today.'},
+    {name: 'Cafés & Restaurants', tone: 'amber', icon: Coffee, product: 'Restro/Hotel360', note: 'Restaurant, hotel and lodge billing and business management with Restro/Hotel360.'},
     {name: 'Supermarkets', tone: 'emerald', icon: ShoppingCart, product: 'SmartBill', note: 'Fast checkout with barcode search and live stock tracking.'},
     {name: 'Distributors', tone: 'violet', icon: Boxes, product: 'SmartBill', note: 'Stock, purchases, customers and sales reports in one place.'},
     {name: 'Service Businesses', tone: 'rose', icon: BriefcaseBusiness, product: 'Custom Application Development', note: 'A custom application shaped around how your service actually runs.'},
@@ -177,7 +177,7 @@ export function Industries({enquire}: {enquire: (service: string, message?: stri
 
     return (
         <section id="industries" className="rv-industries" aria-labelledby="rv-ind-title">
-            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1"/><i className="rv-orb o2"/><div className="rv-hero-grid"/></div>
+            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1" data-parallax=".16" data-parallax-max="110"/><i className="rv-orb o2" data-parallax="-.12" data-parallax-max="90"/><div className="rv-hero-grid"/></div>
             <div className="v3-container">
                 <div className={`rv-head dark rv-fade${headIn ? ' in' : ''}`} ref={headRef}>
                     <div>
@@ -195,10 +195,11 @@ export function Industries({enquire}: {enquire: (service: string, message?: stri
                                 type="button"
                                 role="tab"
                                 aria-selected={selected === i}
-                                className={`rv-ind tone-${tone}${selected === i ? ' on' : ''}`}
+                                className={`rv-ind rv-tilt tone-${tone}${selected === i ? ' on' : ''}`}
                                 onClick={() => setSelected(i)}
                                 onMouseEnter={() => setSelected(i)}
-                                onMouseMove={spotlight}
+                                onMouseMove={tilt}
+                                onMouseLeave={tiltReset}
                                 style={{'--i': i} as CSSProperties}
                             >
                                 <span className="rv-ind-no">0{i + 1}</span>
@@ -209,7 +210,7 @@ export function Industries({enquire}: {enquire: (service: string, message?: stri
                         ))}
                     </div>
 
-                    <aside className={`rv-fit tone-${pick.tone}`} key={pick.name} aria-live="polite">
+                    <aside className={`rv-fit rv-tilt tone-${pick.tone}`} key={pick.name} aria-live="polite" onMouseMove={tilt} onMouseLeave={tiltReset}>
                         <span className="rv-fit-icon"><PickIcon size={26}/></span>
                         <small>SUGGESTED STARTING POINT FOR</small>
                         <h3>{pick.name}</h3>

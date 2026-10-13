@@ -1,7 +1,7 @@
 import {type CSSProperties, type ReactElement} from 'react'
 import {ArrowRight, BarChart3, Barcode, Boxes, CalendarCheck, Check, CheckCircle2, CreditCard, ScanLine, Sparkles, TrendingUp, Users} from 'lucide-react'
 import {company} from '../config/company'
-import {spotlight} from './site/shared'
+import {tilt, tiltReset} from './site/shared'
 
 /* ------------------------------------------------------------------------------------------
    "Everything SmartBill gives you" - bento grid.
@@ -113,7 +113,7 @@ export function IncludedBento({onPreview, onAsk}: Props) {
                 const Icon = item.icon
                 const Visual = item.visual
                 return (
-                    <article key={item.key} className={`pv5-card k-${item.key} tone-${item.tone} ${item.layout}`} onMouseMove={spotlight} style={{'--i': i} as CSSProperties}>
+                    <article key={item.key} className={`pv5-card rv-tilt k-${item.key} tone-${item.tone} ${item.layout}`} onMouseMove={tilt} onMouseLeave={tiltReset} style={{'--i': i} as CSSProperties}>
                         <div className="pv5-text">
                             <div className="pv5-top"><span className="pv5-icon"><Icon size={20}/></span><span className="pv5-no">{String(i + 1).padStart(2, '0')}</span></div>
                             <h4>{reason.title}</h4>

@@ -9,7 +9,7 @@ import {Clients, Industries} from './components/site/Proof'
 import {About} from './components/site/About'
 import {Contact} from './components/site/Contact'
 import {Footer} from './components/site/Footer'
-import {prefersReducedMotion, useActiveSection, type EnquiryPrefill} from './components/site/shared'
+import {prefersReducedMotion, useActiveSection, useParallax, type EnquiryPrefill} from './components/site/shared'
 import './enterprise-v3.css'
 import './css/site-v4.css'
 import './css/sections-v5.css'
@@ -24,6 +24,7 @@ const enquiryEndpoint: string | undefined = (import.meta as unknown as {env?: Re
 export default function App() {
     const [prefill, setPrefill] = useState<EnquiryPrefill>({nonce: 0})
     const active = useActiveSection(useMemo(() => NAV.map(([id]) => id), []))
+    useParallax()
 
     const scrollTo = useCallback((id: string) => {
         document.getElementById(id)?.scrollIntoView({behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start'})
@@ -52,7 +53,7 @@ export default function App() {
             <main id="main">
                 <Hero scrollTo={scrollTo} requestDemo={requestDemo}/>
                 <Ticker/>
-                <ProductsShowcase scrollTo={scrollTo} requestDemo={requestDemo}/>
+                <ProductsShowcase scrollTo={scrollTo} requestDemo={requestDemo} enquire={enquire}/>
                 <Services scrollTo={scrollTo} enquire={enquire}/>
                 <Clients enquire={enquire}/>
                 <Industries enquire={enquire}/>

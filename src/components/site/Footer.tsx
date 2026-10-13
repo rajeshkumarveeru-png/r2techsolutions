@@ -1,19 +1,21 @@
 import {ArrowRight, ArrowUp, Mail, MapPin, MessageCircle, Phone} from 'lucide-react'
 import {company} from '../../config/company'
-import {companyAddress, Logo, mapsLink, waLink} from './shared'
+import {companyAddress, Logo, mapsLink, useReveal, waLink} from './shared'
 
-const PRODUCT_LINKS = [['SmartBill', 'smartbill'], ['Jewell360', 'jewell360'], ['Textile360', 'textile360'], ['Resto/Hotel360', 'resto360'], ['Lodge360', 'lodge360']] as const
+const PRODUCT_LINKS = [['SmartBill', 'smartbill'], ['Jewell360', 'jewell360'], ['Restro/Hotel360', 'resto360'], ['Textile360', 'textile360'], ['Mobile360', 'mobile360'], ['Medical360', 'medical360']] as const
 const COMPANY_LINKS = [['services', 'Services'], ['clients', 'Clients'], ['about', 'About'], ['contact', 'Contact']] as const
 
 export function Footer({scrollTo}: {scrollTo: (id: string) => void}) {
+    const [ctaRef, ctaIn] = useReveal<HTMLDivElement>()
+    const [mainRef, mainIn] = useReveal<HTMLDivElement>(0.08)
     const openProduct = (key: string) => {
         window.dispatchEvent(new CustomEvent('r2:select-product', {detail: key}))
         scrollTo('solutions')
     }
     return (
         <footer className="rv-footer">
-            <div className="rv-footer-glow" aria-hidden="true"/>
-            <div className="v3-container rv-footer-cta">
+            <div className="rv-footer-glow" aria-hidden="true" data-parallax=".14" data-parallax-max="70"/>
+            <div className={`v3-container rv-footer-cta rv-fade${ctaIn ? ' in' : ''}`} ref={ctaRef}>
                 <div>
                     <h3>Ready to build something useful?</h3>
                     <p>Tell us about your requirement. We will help you choose the simplest way forward.</p>
@@ -21,7 +23,7 @@ export function Footer({scrollTo}: {scrollTo: (id: string) => void}) {
                 <button type="button" className="rv-btn rv-btn-light" onClick={() => scrollTo('contact')}>Start a Project <ArrowRight size={16}/></button>
             </div>
 
-            <div className="v3-container rv-footer-main">
+            <div className={`v3-container rv-footer-main rv-stagger${mainIn ? ' in' : ''}`} ref={mainRef}>
                 <div className="rv-footer-brand">
                     <div className="rv-footer-logo"><Logo src={company.logo} alt=""/><strong>{company.shortName}</strong></div>
                     <p>Digital products, websites, custom software and dependable software support for modern businesses.</p>

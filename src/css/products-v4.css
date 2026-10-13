@@ -37,6 +37,8 @@
 
 /* ------------------------------------------------------------------- stage */
 .tone-blue{--tone:#2563eb;--tone2:#38bdf8}.tone-gold{--tone:#d97706;--tone2:#fbbf24}.tone-violet{--tone:#7c3aed;--tone2:#c084fc}.tone-green{--tone:#059669;--tone2:#34d399}.tone-rose{--tone:#e11d48;--tone2:#fb7185}
+.tone-indigo{--tone:#4f46e5;--tone2:#818cf8}
+.tone-teal{--tone:#0d9488;--tone2:#2dd4bf}
 .pv-stage{position:relative;display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:34px;padding:34px;border-radius:30px;overflow:hidden;background:linear-gradient(160deg,#fff 0%,color-mix(in srgb,var(--tone) 5%,#fff) 100%);border:1px solid var(--pv-line);box-shadow:0 40px 90px -50px rgba(20,30,52,.45)}
 .pv-stage::before{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--tone) 18%,transparent),transparent 68%);pointer-events:none}
 .pv-stage::after{content:"";position:absolute;left:34px;right:34px;top:0;height:4px;border-radius:0 0 6px 6px;background:linear-gradient(90deg,var(--tone),var(--tone2))}
