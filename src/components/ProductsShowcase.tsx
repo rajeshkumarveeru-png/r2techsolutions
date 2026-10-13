@@ -10,21 +10,25 @@ import {
     CheckCircle2,
     Coffee,
     CreditCard,
+    HeartPulse,
     Mail,
     MessageCircle,
     Package,
     ScanLine,
     ShoppingCart,
     Sparkles,
-    Store
+    Smartphone
 } from 'lucide-react'
 import {company} from '../config/company'
 import {IncludedBento} from './IncludedBento'
+import {prefersReducedMotion, useReveal, waLink} from './site/shared'
 import '../css/products-v4.css'
 
 type Props = {
     scrollTo: (id: string) => void
     requestDemo: () => void
+    /** open the contact form with a product and message filled in */
+    enquire: (service: string, message?: string) => void
 }
 
 /* ------------------------------------------------------------------------------------------
@@ -32,36 +36,52 @@ type Props = {
    ------------------------------------------------------------------------------------------ */
 const smartBillingImage = '/images/smart-billing-pos.png'
 
-const PRODUCTS = [
+type Product = {
+    key: string; number: string; name: string; status: 'AVAILABLE' | 'COMING SOON'; tone: string; icon: typeof ShoppingCart
+    short: string; text: string; tags: string[]
+    /** what an available product covers (shown as the check list) */
+    covers?: string[]
+}
+
+/* available products first, then the ones on the way */
+const PRODUCTS: Product[] = [
     {
-        key: 'smartbill', number: '01', name: 'SmartBill', status: 'AVAILABLE' as const, tone: 'blue', icon: ShoppingCart,
+        key: 'smartbill', number: '01', name: 'SmartBill', status: 'AVAILABLE', tone: 'blue', icon: ShoppingCart,
         short: 'Billing & POS',
         text: 'A modern business billing platform for fast checkout, inventory, customers, payments, QR/barcode scanning and reports.',
         tags: ['Billing', 'POS', 'Inventory']
     },
     {
-        key: 'jewell360', number: '02', name: 'Jewell360', status: 'COMING SOON' as const, tone: 'gold', icon: Sparkles,
+        key: 'jewell360', number: '02', name: 'Jewell360', status: 'AVAILABLE', tone: 'gold', icon: Sparkles,
         short: 'Jewellery',
         text: 'Jewellery billing, stock and business management.',
-        tags: ['Jewellery', 'Billing', 'Stock']
+        tags: ['Jewellery', 'Billing', 'Stock'],
+        covers: ['Jewellery billing', 'Stock management', 'Business management']
     },
     {
-        key: 'textile360', number: '03', name: 'Textile360', status: 'COMING SOON' as const, tone: 'violet', icon: Package,
+        key: 'resto360', number: '03', name: 'Restro/Hotel360', status: 'AVAILABLE', tone: 'green', icon: Coffee,
+        short: 'Restaurant & hotel',
+        text: 'Restaurant, hotel and lodge billing and business management.',
+        tags: ['Restaurant', 'Hotel', 'Lodge'],
+        covers: ['Restaurant billing', 'Hotel and lodge billing', 'Business management']
+    },
+    {
+        key: 'textile360', number: '04', name: 'Textile360', status: 'COMING SOON', tone: 'violet', icon: Package,
         short: 'Textile & garments',
         text: 'Textile and garment business management.',
         tags: ['Textile', 'Sales', 'Stock']
     },
     {
-        key: 'resto360', number: '04', name: 'Resto/Hotel360', status: 'COMING SOON' as const, tone: 'green', icon: Coffee,
-        short: 'Restaurant & hotel',
-        text: 'Restaurant and hotel billing and business management.',
-        tags: ['Restaurant', 'Hotel', 'Billing']
+        key: 'mobile360', number: '05', name: 'Mobile360', status: 'COMING SOON', tone: 'rose', icon: Smartphone,
+        short: 'Mobile shops',
+        text: 'Mobile shop billing, stock and business management.',
+        tags: ['Mobiles', 'Accessories', 'Stock']
     },
     {
-        key: 'lodge360', number: '05', name: 'Lodge360', status: 'COMING SOON' as const, tone: 'rose', icon: Store,
-        short: 'Lodge & rooms',
-        text: 'Simple lodge, room and guest management.',
-        tags: ['Rooms', 'Guests', 'Bookings']
+        key: 'medical360', number: '06', name: 'Medical360', status: 'COMING SOON', tone: 'teal', icon: HeartPulse,
+        short: 'Hospital & clinic',
+        text: 'Hospital and clinic management.',
+        tags: ['Patients', 'Billing', 'Pharmacy']
     }
 ]
 
@@ -90,38 +110,6 @@ const FEATURES = [
 
 const ROTATE_MS = 6500
 const WAITLIST_KEY = 'r2_product_waitlist'
-
-const phoneDigits = String(company.phone || '').replace(/\D/g, '')
-const waLink = (message: string) => `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`
-
-/* ------------------------------------------------------------------------------------------
-   SMALL HOOKS
-   ------------------------------------------------------------------------------------------ */
-const prefersReducedMotion = () =>
-    typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-/** true once the element has scrolled into view (state, not classList: React re-renders would otherwise wipe a manually added class) */
-function useReveal<T extends HTMLElement>() {
-    const ref = useRef<T>(null)
-    const [visible, setVisible] = useState(false)
-    useEffect(() => {
-        const el = ref.current
-        if (!el) return
-        if (typeof IntersectionObserver === 'undefined' || prefersReducedMotion()) {
-            setVisible(true)
-            return
-        }
-        const io = new IntersectionObserver(entries => {
-            if (entries.some(entry => entry.isIntersecting)) {
-                setVisible(true)
-                io.disconnect()
-            }
-        }, {threshold: 0.12})
-        io.observe(el)
-        return () => io.disconnect()
-    }, [])
-    return [ref, visible] as const
-}
 
 const readWaitlist = (): Record<string, string> => {
     try {
@@ -330,7 +318,7 @@ function FeatureExplorer() {
 /* ------------------------------------------------------------------------------------------
    COMING-SOON PANEL: blueprint + "notify me"
    ------------------------------------------------------------------------------------------ */
-function ComingSoon({product, scrollTo}: {product: typeof PRODUCTS[number]; scrollTo: (id: string) => void}) {
+function ComingSoon({product, scrollTo}: {product: Product; scrollTo: (id: string) => void}) {
     const Icon = product.icon
     const [email, setEmail] = useState('')
     const [error, setError] = useState('')
@@ -393,10 +381,47 @@ function ComingSoon({product, scrollTo}: {product: typeof PRODUCTS[number]; scro
 }
 
 /* ------------------------------------------------------------------------------------------
+   AVAILABLE-PRODUCT PANEL (products other than SmartBill that are ready today): same blueprint, demo instead of waitlist
+   ------------------------------------------------------------------------------------------ */
+function ReadyPanel({product, onDemo}: {product: Product; onDemo: () => void}) {
+    const Icon = product.icon
+    return (
+        <div className="pv-soon pv-ready">
+            <div className="pv-blueprint" aria-hidden="true">
+                <div className="pv-bp-core"><Icon size={34}/></div>
+                {product.tags.map((tag, i) => <span key={tag} className={`pv-bp-chip c${i}`}>{tag}</span>)}
+                <i className="pv-bp-ring r1"/><i className="pv-bp-ring r2"/><i className="pv-bp-ring r3"/>
+            </div>
+            <div className="pv-soon-card">
+                <span className="pv-soon-label"><CheckCircle2 size={13}/> AVAILABLE NOW</span>
+                <h4>See {product.name} in action</h4>
+                <p>Book a short demo and we will walk you through {product.name} using your own way of working.</p>
+                <div className="pv-actions">
+                    <button type="button" className="pv-btn pv-btn-primary" onClick={onDemo}><CalendarCheck size={16}/> Request a Demo</button>
+                    <a className="pv-btn pv-btn-ghost" href={waLink(`Hello, I would like a ${product.name} demo`)} target="_blank" rel="noreferrer"><MessageCircle size={16}/> WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+/* ------------------------------------------------------------------------------------------
    MAIN SECTION
    ------------------------------------------------------------------------------------------ */
-export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
+export default function ProductsShowcase({scrollTo, requestDemo, enquire}: Props) {
     const [selected, setSelected] = useState(0)
+    const switchRef = useRef<HTMLDivElement>(null)
+
+    // the switcher scrolls sideways: keep the chosen product's tab in view (only the strip scrolls, never the page)
+    useEffect(() => {
+        const strip = switchRef.current
+        const tab = strip?.querySelectorAll<HTMLElement>('[role="tab"]')[selected]
+        if (!strip || !tab) return
+        const left = tab.offsetLeft                        // .pv-switch is position:relative, so this is already strip-relative
+        if (left < strip.scrollLeft || left + tab.offsetWidth > strip.scrollLeft + strip.clientWidth) {
+            strip.scrollTo({left: left - (strip.clientWidth - tab.offsetWidth) / 2, behavior: prefersReducedMotion() ? 'auto' : 'smooth'})
+        }
+    }, [selected])
     const [headRef, headIn] = useReveal<HTMLDivElement>()
     const [stageRef, stageIn] = useReveal<HTMLDivElement>()
     const [gridRef, gridIn] = useReveal<HTMLDivElement>()
@@ -415,6 +440,8 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
     const product = PRODUCTS[selected]
     const Icon = product.icon
     const isSmartBill = product.key === 'smartbill'
+    const available = product.status === 'AVAILABLE'
+    const demo = isSmartBill ? requestDemo : () => enquire(product.name, `I would like a ${product.name} demo.`)
 
     /** from a "What's included" card: open SmartBill, select that preview tab and scroll up to it */
     const previewFeature = (key: string) => {
@@ -447,11 +474,11 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
                         <span className="v3-label">OUR PRODUCTS</span>
                         <h2 id="pv-title">Simple software for<br/>real business needs.</h2>
                     </div>
-                    <p>Practical products for billing, retail, jewellery, textile and hospitality businesses. Start with SmartBill today and watch the family grow.</p>
+                    <p>Practical products for billing, retail, jewellery, hospitality, textile and healthcare. SmartBill, Jewell360 and Restro/Hotel360 are available today - more are on the way.</p>
                 </div>
 
                 {/* ------------ product switcher ------------ */}
-                <div className="pv-switch" role="tablist" aria-label="Our products" onKeyDown={onKey} style={{'--i': selected, '--n': PRODUCTS.length} as CSSProperties}>
+                <div className="pv-switch" role="tablist" aria-label="Our products" onKeyDown={onKey} ref={switchRef} style={{'--i': selected, '--n': PRODUCTS.length} as CSSProperties}>
                     {PRODUCTS.map((p, i) => {
                         const PIcon = p.icon
                         return (
@@ -477,25 +504,25 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
                     <div className="pv-stage-copy pv-swap" key={`copy-${product.key}`}>
                         <div className="pv-stage-top">
                             <span className="pv-number">{product.number} / PRODUCT</span>
-                            <span className={`pv-status ${isSmartBill ? 'live' : 'soon'}`}><i/> {product.status}</span>
+                            <span className={`pv-status ${available ? 'live' : 'soon'}`}><i/> {product.status}</span>
                         </div>
                         <div className="pv-product-icon"><Icon size={26}/></div>
                         <h3>{product.name}</h3>
                         <p>{product.text}</p>
                         <div className="pv-tags">{product.tags.map(t => <span key={t}>{t}</span>)}</div>
 
-                        {isSmartBill ? (
+                        {available ? (
                             <>
                                 <ul className="pv-checks">
-                                    {['Fast billing & payments', 'Inventory & stock control', 'Customer management', 'Reports & business visibility'].map(item => (
+                                    {(product.covers ?? ['Fast billing & payments', 'Inventory & stock control', 'Customer management', 'Reports & business visibility']).map(item => (
                                         <li key={item}><CheckCircle2 size={16}/> {item}</li>
                                     ))}
                                 </ul>
                                 <div className="pv-actions">
-                                    <button type="button" className="pv-btn pv-btn-primary" onClick={requestDemo}><CalendarCheck size={16}/> Request a Demo</button>
-                                    <a className="pv-btn pv-btn-ghost" href={waLink('Hello, I would like a SmartBill demo')} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Chat on WhatsApp</a>
+                                    <button type="button" className="pv-btn pv-btn-primary" onClick={demo}><CalendarCheck size={16}/> Request a Demo</button>
+                                    <a className="pv-btn pv-btn-ghost" href={waLink(`Hello, I would like a ${product.name} demo`)} target="_blank" rel="noreferrer"><MessageCircle size={16}/> Chat on WhatsApp</a>
                                 </div>
-                                <button type="button" className="pv-link" onClick={() => scrollTo('contact')}>Enquire about SmartBill <ArrowRight size={15}/></button>
+                                <button type="button" className="pv-link" onClick={() => enquire(product.name, `I would like to know more about ${product.name}.`)}>Enquire about {product.name} <ArrowRight size={15}/></button>
                             </>
                         ) : (
                             <div className="pv-soon-note"><Sparkles size={15}/> Planned modules: {product.tags.join(' · ')}</div>
@@ -503,7 +530,7 @@ export default function ProductsShowcase({scrollTo, requestDemo}: Props) {
                     </div>
 
                     <div className="pv-stage-visual pv-swap" key={`visual-${product.key}`}>
-                        {isSmartBill ? <FeatureExplorer/> : <ComingSoon product={product} scrollTo={scrollTo}/>}
+                        {isSmartBill ? <FeatureExplorer/> : available ? <ReadyPanel product={product} onDemo={demo}/> : <ComingSoon product={product} scrollTo={scrollTo}/>}
                     </div>
                 </div>
 

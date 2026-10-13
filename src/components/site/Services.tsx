@@ -59,7 +59,7 @@ export function Services({scrollTo, enquire}: ServicesProps) {
 
     return (
         <section id="services" className="rv-services" aria-labelledby="rv-services-title">
-            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1"/><i className="rv-orb o2"/><div className="rv-hero-grid"/></div>
+            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1" data-parallax=".16" data-parallax-max="110"/><i className="rv-orb o2" data-parallax="-.12" data-parallax-max="90"/><div className="rv-hero-grid"/></div>
             <div className="v3-container rv-services-grid">
                 <div className={`rv-services-copy rv-fade${headIn ? ' in' : ''}`} ref={headRef}>
                     <span className="rv-label inv">OUR SERVICES</span>

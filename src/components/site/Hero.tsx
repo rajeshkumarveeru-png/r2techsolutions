@@ -4,7 +4,7 @@ import {
 } from 'lucide-react'
 import {company} from '../../config/company'
 import {MockBarcode, MockBilling, MockInsights, MockInventory} from '../ProductsShowcase'
-import {prefersReducedMotion, useReveal} from './shared'
+import {canTrackPointer, prefersReducedMotion} from './shared'
 
 type HeroProps = {
     scrollTo: (id: string) => void
@@ -26,9 +26,21 @@ export function Hero({scrollTo, requestDemo}: HeroProps) {
     const [pausedTabs, setPausedTabs] = useState(false)
     const userPicked = useRef(false)
     const reduced = useMemo(prefersReducedMotion, [])
-    const [copyRef, copyIn] = useReveal<HTMLDivElement>(0.05)
+    const [photoReady, setPhotoReady] = useState(false)
     const heroRef = useRef<HTMLElement>(null)
     const consoleRef = useRef<HTMLDivElement>(null)
+    const pointerFrame = useRef(0)
+
+    // background photo: decode it off-screen, then fade it in (no pop-in, never blocks the content)
+    useEffect(() => {
+        const img = new Image()
+        img.onload = () => setPhotoReady(true)
+        img.src = company.heroImage
+        if (img.complete) setPhotoReady(true)
+        return () => { img.onload = null }
+    }, [])
+
+    useEffect(() => () => window.cancelAnimationFrame(pointerFrame.current), [])
 
     // rotating phrase in the headline
     useEffect(() => {
@@ -44,23 +56,35 @@ export function Hero({scrollTo, requestDemo}: HeroProps) {
         return () => window.clearTimeout(t)
     }, [tab, pausedTabs, reduced])
 
-    // pointer glow over the whole hero + a gentle 3D tilt on the console
+    // pointer glow over the whole hero, layered depth (--hx/--hy, -1..1) and a gentle 3D tilt on the console.
+    // Throttled to one write per frame; CSS transitions smooth the movement.
     const onMove = (event: MouseEvent<HTMLElement>) => {
-        const hero = heroRef.current
-        if (!hero) return
-        const r = hero.getBoundingClientRect()
-        hero.style.setProperty('--gx', `${event.clientX - r.left}px`)
-        hero.style.setProperty('--gy', `${event.clientY - r.top}px`)
-        const c = consoleRef.current
-        if (c && !reduced && window.matchMedia('(hover: hover)').matches) {
-            const cr = c.getBoundingClientRect()
-            const px = (event.clientX - (cr.left + cr.width / 2)) / (window.innerWidth / 2)
-            const py = (event.clientY - (cr.top + cr.height / 2)) / (window.innerHeight / 2)
-            c.style.setProperty('--ry', `${Math.max(-1, Math.min(1, px)) * 5}deg`)
-            c.style.setProperty('--rx', `${Math.max(-1, Math.min(1, py)) * -4}deg`)
-        }
+        if (!canTrackPointer() || pointerFrame.current) return
+        const {clientX, clientY} = event
+        pointerFrame.current = window.requestAnimationFrame(() => {
+            pointerFrame.current = 0
+            const hero = heroRef.current
+            if (!hero) return
+            const r = hero.getBoundingClientRect()
+            hero.style.setProperty('--gx', `${clientX - r.left}px`)
+            hero.style.setProperty('--gy', `${clientY - r.top}px`)
+            hero.style.setProperty('--hx', ((clientX - r.left) / r.width * 2 - 1).toFixed(3))
+            hero.style.setProperty('--hy', ((clientY - r.top) / r.height * 2 - 1).toFixed(3))
+            const c = consoleRef.current
+            if (c) {
+                const cr = c.getBoundingClientRect()
+                const px = (clientX - (cr.left + cr.width / 2)) / (window.innerWidth / 2)
+                const py = (clientY - (cr.top + cr.height / 2)) / (window.innerHeight / 2)
+                c.style.setProperty('--ry', `${(Math.max(-1, Math.min(1, px)) * 8).toFixed(2)}deg`)
+                c.style.setProperty('--rx', `${(Math.max(-1, Math.min(1, py)) * -6).toFixed(2)}deg`)
+            }
+        })
     }
     const onLeave = () => {
+        window.cancelAnimationFrame(pointerFrame.current)
+        pointerFrame.current = 0
+        heroRef.current?.style.setProperty('--hx', '0')
+        heroRef.current?.style.setProperty('--hy', '0')
         consoleRef.current?.style.setProperty('--rx', '0deg')
         consoleRef.current?.style.setProperty('--ry', '0deg')
     }
@@ -70,21 +94,21 @@ export function Hero({scrollTo, requestDemo}: HeroProps) {
     return (
         <section id="home" className="rv-hero" ref={heroRef} onMouseMove={onMove} onMouseLeave={onLeave}>
             <div className="rv-hero-bg" aria-hidden="true">
-                <div className="rv-hero-photo" style={{backgroundImage: `url(${company.heroImage})`}}/>
+                <div className={`rv-hero-photo${photoReady ? ' is-loaded' : ''}`} data-parallax=".22" data-parallax-max="160" style={{backgroundImage: `url(${company.heroImage})`}}/>
                 <div className="rv-hero-shade"/>
-                <div className="rv-hero-grid"/>
+                <div className="rv-hero-grid" data-parallax=".1" data-parallax-max="80"/>
                 <div className="rv-hero-glow"/>
-                <i className="rv-orb o1"/><i className="rv-orb o2"/>
+                <i className="rv-orb o1" data-parallax=".35" data-parallax-max="180"/><i className="rv-orb o2" data-parallax="-.18" data-parallax-max="120"/>
             </div>
 
             <div className="v3-container rv-hero-inner">
-                <div className={`rv-hero-copy rv-fade${copyIn ? ' in' : ''}`} ref={copyRef}>
+                <div className="rv-hero-copy rv-intro">
                     <div className="rv-eyebrow"><span className="rv-pulse"/> DIGITAL PRODUCTS • SOFTWARE • SUPPORT</div>
 
-                    <h1>
-                        Digital solutions
-                        <span className="rv-h1-accent">built around</span>
-                        your business.
+                    <h1 className="rv-h1-reveal">
+                        <span className="rv-line"><span>Digital solutions</span></span>{' '}
+                        <span className="rv-line"><span className="rv-h1-accent">built around</span></span>{' '}
+                        <span className="rv-line"><span>your business.</span></span>
                     </h1>
 
                     <div className="rv-building" aria-live="polite">
@@ -122,8 +146,7 @@ export function Hero({scrollTo, requestDemo}: HeroProps) {
                 </div>
 
                 <div
-                    className={`rv-console-wrap rv-fade${copyIn ? ' in' : ''}`}
-                    style={{'--d': '.15s'} as CSSProperties}
+                    className="rv-console-wrap"
                     onMouseEnter={() => setPausedTabs(true)}
                     onMouseLeave={() => setPausedTabs(false)}
                     onFocus={() => setPausedTabs(true)}

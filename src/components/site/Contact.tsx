@@ -124,7 +124,7 @@ export function Contact({prefill, endpoint}: Props) {
 
     return (
         <section id="contact" className="rv-contact" aria-labelledby="rv-contact-title">
-            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1"/><i className="rv-orb o2"/><div className="rv-hero-grid"/><i className="rv-orbit a"/><i className="rv-orbit b"/></div>
+            <div className="rv-dark-bg" aria-hidden="true"><i className="rv-orb o1" data-parallax=".16" data-parallax-max="110"/><i className="rv-orb o2" data-parallax="-.12" data-parallax-max="90"/><div className="rv-hero-grid"/><i className="rv-orbit a"/><i className="rv-orbit b"/></div>
 
             <div className="v3-container rv-contact-grid">
                 <div className={`rv-contact-left rv-fade${leftIn ? ' in' : ''}`} ref={leftRef}>
@@ -150,7 +150,7 @@ export function Contact({prefill, endpoint}: Props) {
                                     </a>
                                     {c.copy && (
                                         <button type="button" className="rv-copy" onClick={() => void copy(c.copy!, c.key)} aria-label={`Copy ${c.value}`} title="Copy">
-                                            {copied === c.key ? <Check size={15}/> : <Copy size={15}/>}
+                                            {copied === c.key ? <Check className="rv-tick" size={15}/> : <Copy size={15}/>}
                                         </button>
                                     )}
                                 </div>
@@ -165,7 +165,7 @@ export function Contact({prefill, endpoint}: Props) {
                             <address>{companyAddress.split('\n').map((line, i) => <span key={i}>{line}<br/></span>)}</address>
                             <div className="rv-address-actions">
                                 <a href={mapsLink} target="_blank" rel="noreferrer"><ExternalLink size={14}/> Open in Maps</a>
-                                <button type="button" onClick={() => void copy(companyAddress.replace(/\n/g, ', '), 'addr')}>{copied === 'addr' ? <Check size={14}/> : <Copy size={14}/>} {copied === 'addr' ? 'Copied' : 'Copy address'}</button>
+                                <button type="button" onClick={() => void copy(companyAddress.replace(/\n/g, ', '), 'addr')}>{copied === 'addr' ? <Check className="rv-tick" size={14}/> : <Copy size={14}/>} {copied === 'addr' ? 'Copied' : 'Copy address'}</button>
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@ export function Contact({prefill, endpoint}: Props) {
                                     <a className="rv-btn rv-btn-light" href={`mailto:${company.email}?subject=${encodeURIComponent(`Project enquiry - ${form.service || 'General'}`)}&body=${encodeURIComponent(summary)}`}><Mail size={17}/> Send by email</a>
                                 </>
                             )}
-                            <button type="button" className="rv-btn rv-btn-outline" onClick={() => void copy(summary, 'sum')}>{copied === 'sum' ? <Check size={16}/> : <Copy size={16}/>} {copied === 'sum' ? 'Copied' : 'Copy details'}</button>
+                            <button type="button" className="rv-btn rv-btn-outline" onClick={() => void copy(summary, 'sum')}>{copied === 'sum' ? <Check className="rv-tick" size={16}/> : <Copy size={16}/>} {copied === 'sum' ? 'Copied' : 'Copy details'}</button>
                         </div>
                         <button type="button" className="rv-link-btn inv" onClick={() => { setStatus('idle'); if (delivered) setForm(EMPTY) }}>{delivered ? 'Send another enquiry' : 'Edit my enquiry'}</button>
                     </div>

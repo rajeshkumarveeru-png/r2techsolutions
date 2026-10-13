@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent} from 'react'
 import {ArrowRight, BarChart3, Barcode, Boxes, Check, CheckCircle2, Compass, CreditCard, Hammer, LifeBuoy, MessageCircle, Palette, Rocket} from 'lucide-react'
 import {company} from '../../config/company'
-import {Photo, prefersReducedMotion, spotlight, useReveal} from './shared'
+import {Photo, prefersReducedMotion, tilt, tiltReset, useReveal} from './shared'
 
 /* The four steps come straight from your "About our approach" paragraph.
    Titles + the first sentence are your words; the short "what happens" bullets and the sample screens are illustrative (edit freely). */
@@ -128,7 +128,7 @@ export function About({enquire}: {enquire: (service: string, message?: string) =
             <div className="v3-container rv5-about-grid">
                 <div className={`rv5-media rv-fade${imgIn ? ' in' : ''}`} ref={imgRef}>
                     <div className="rv5-photo">
-                        <Photo src={company.aboutImage} alt="Our digital solutions"/>
+                        <Photo src={company.aboutImage} alt="Our digital solutions" parallax={.06}/>
                         <div className="rv-photo-shine" aria-hidden="true"/>
                     </div>
                     <div className="rv-image-badge"><Rocket size={17}/><span><strong>Build.</strong> Improve. Support.</span></div>
@@ -151,7 +151,7 @@ export function About({enquire}: {enquire: (service: string, message?: string) =
                             const meta = PRINCIPLES[index % PRINCIPLES.length]
                             const Icon = meta.icon
                             return (
-                                <article className={`rv6-p tone-${meta.tone}`} key={reason.title} onMouseMove={spotlight} style={{'--i': index} as CSSProperties}>
+                                <article className={`rv6-p rv-tilt tone-${meta.tone}`} key={reason.title} onMouseMove={tilt} onMouseLeave={tiltReset} style={{'--i': index} as CSSProperties}>
                                     <span className="rv6-p-mark" aria-hidden="true"><Icon size={92} strokeWidth={1.2}/></span>
                                     <div className="rv6-p-top">
                                         <span className="rv6-p-icon"><Icon size={22}/></span>

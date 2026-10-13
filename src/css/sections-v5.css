@@ -283,3 +283,197 @@
 @media (max-width:680px){.rv6-p{padding:20px 18px 22px}.rv6-p-link{opacity:1;transform:none}}
 @media (hover:none){.rv6-p-link{opacity:1;transform:none}.rv6-p::after{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){.rv6-p,.rv6-p *{animation:none!important;transition:none!important}}
+
+/* =====================================================================
+   v7 - MOTION LAYER: landing sequence, reveals, selective 3D tilt, parallax, loading states, micro-interactions.
+   One easing (--rv-ease), transform/opacity only, no layout animation. JS helpers: components/site/shared.tsx
+   (useReveal, tilt / tiltReset, useParallax, Photo). Everything here is neutralised for prefers-reduced-motion.
+   ===================================================================== */
+.rv-site{--rise:22px;animation:rv-site-in .5s ease-out backwards}
+@keyframes rv-site-in{from{opacity:0}}
+@keyframes rv-rise{from{opacity:0;transform:translateY(var(--rise))}}
+@keyframes rv-fade-in{from{opacity:0}}
+
+/* ---------------------------------------------------------- loading: images */
+/* the About photo frame shimmers (skeleton) until the image has decoded, then the image fades in */
+.rv5-photo{background:linear-gradient(100deg,#e6ecf8 30%,#f4f7fd 50%,#e6ecf8 70%) 0 0/300% 100%;animation:rv-shimmer 1.4s linear infinite}
+.rv5-photo:has(.rv-img.is-loaded),.rv5-photo:has(.rv-photo-fallback){animation:none}
+@keyframes rv-shimmer{to{background-position:-150% 0}}
+.rv5-photo img.rv-img{opacity:0;scale:1.1;transition:opacity .8s ease-out,transform 1.2s var(--rv-ease)}
+.rv5-photo img.rv-img.is-loaded{opacity:1}
+/* hero background photo is decoded first (Hero.tsx) and then faded in - no pop-in */
+.rv-hero-photo{opacity:0;transition:opacity 1.4s ease-out}.rv-hero-photo.is-loaded{opacity:.34}
+
+/* --------------------------------------------------------------- parallax */
+/* useParallax() writes --py; the independent `translate` property composes with the existing drift / ken-burns animations */
+[data-parallax]{translate:0 var(--py,0px)}
+
+/* ----------------------------------------------------- header + navigation */
+.rv-header{animation:rv-header-in .8s var(--rv-ease) .1s backwards}
+@keyframes rv-header-in{from{opacity:0;transform:translateY(-22px)}}
+.rv-links{position:relative}.rv-links>button{z-index:1}
+.rv-links-ind{position:absolute;left:0;top:5px;bottom:5px;width:var(--ind-w,0px);transform:translateX(var(--ind-x,0px));border-radius:99px;opacity:0;pointer-events:none;
+  background:linear-gradient(135deg,var(--rv-dark),color-mix(in srgb,var(--rv-brand) 70%,var(--rv-dark)));box-shadow:0 10px 20px -10px color-mix(in srgb,var(--rv-brand) 80%,transparent);
+  transition:transform .5s var(--rv-ease),width .5s var(--rv-ease),opacity .3s ease-out}
+.rv-links.has-ind .rv-links-ind{opacity:1}
+.rv-links.has-ind button.on{background:transparent;box-shadow:none}
+
+/* --------------------------------------------------------- hero: landing */
+.rv-intro>*{animation:rv-rise .9s var(--rv-ease) backwards}
+.rv-intro>:nth-child(1){animation-delay:.15s}
+.rv-intro>:nth-child(3){animation-delay:.6s}
+.rv-intro>:nth-child(4){animation-delay:.7s}
+.rv-intro>:nth-child(6){animation-delay:1s}
+.rv-intro>.rv-h1-reveal,.rv-intro>.rv-actions,.rv-intro>.rv-statbar{animation:none}
+/* headline: each line slides up from behind a mask */
+.rv-h1-reveal .rv-line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.rv-h1-reveal .rv-line>span{display:inline-block;animation:rv-line-up 1.05s var(--rv-ease) backwards}
+.rv-h1-reveal .rv-line:nth-child(1)>span{animation-delay:.25s}
+.rv-h1-reveal .rv-line:nth-child(2)>span{animation-delay:.36s}
+.rv-h1-reveal .rv-line:nth-child(3)>span{animation-delay:.47s}
+@keyframes rv-line-up{from{opacity:0;transform:translateY(105%)}}
+/* buttons follow one by one, then the stat chips */
+.rv-intro .rv-actions>*{animation:rv-rise .8s var(--rv-ease) backwards}
+.rv-intro .rv-actions>:nth-child(1){animation-delay:.8s}.rv-intro .rv-actions>:nth-child(2){animation-delay:.88s}.rv-intro .rv-actions>:nth-child(3){animation-delay:.96s}
+.rv-intro .rv-statbar li{animation-delay:calc(1.05s + var(--i) * .07s)}
+/* product console rises in with a little depth, floating chips pop in after it */
+.rv-console-wrap{animation:rv-console-in 1.15s var(--rv-ease) .45s backwards}
+@keyframes rv-console-in{from{opacity:0;transform:perspective(1400px) translateY(46px) rotateX(9deg) scale(.96)}}
+.rv-float-chip{animation:rv-chip-in .7s var(--rv-ease) 1.2s backwards,rv-bob 6s ease-in-out 1.9s infinite}
+.rv-float-chip.c2{animation-delay:1.35s,3.5s}
+@keyframes rv-chip-in{from{opacity:0;transform:scale(.7) translateY(10px)}}
+.rv-scroll-cue{animation:rv-fade-in .8s ease-out 1.5s backwards}
+/* pointer depth (Hero.tsx writes --hx/--hy in -1..1): chips drift against the pointer, the glow follows it */
+.rv-float-chip{translate:calc(var(--hx,0) * -14px) calc(var(--hy,0) * -10px);transition:translate .9s var(--rv-ease)}
+.rv-float-chip.c2{translate:calc(var(--hx,0) * 18px) calc(var(--hy,0) * 12px)}
+.rv-hero{--gx:70vw;--gy:30vh}
+.rv-hero-glow{inset:auto;left:0;top:0;width:840px;height:840px;margin:-420px 0 0 -420px;background:radial-gradient(circle closest-side,color-mix(in srgb,var(--rv-brand) 30%,transparent),transparent 70%);transform:translate3d(var(--gx),var(--gy),0);transition:transform .7s var(--rv-ease)}
+
+/* --------------------------------------------------------- entrance reveals */
+/* section intros: the block fades, its parts rise in a short cascade (label/heading -> text -> actions) */
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left).rv-fade,.pv-head.pv-reveal,.pv-included.pv-reveal{transform:none}
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left).rv-fade.in>*,.pv-head.pv-reveal.in>*,.pv-included.pv-reveal.in>.pv-included-head{animation:rv-rise .9s var(--rv-ease) backwards;animation-delay:.05s}
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left,.pv-head).in>:nth-child(2){animation-delay:.13s}
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left,.pv-head).in>:nth-child(3){animation-delay:.21s}
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left,.pv-head).in>:nth-child(4){animation-delay:.29s}
+:is(.rv-head,.rv-services-copy,.rv5-copy,.rv-contact-left,.pv-head).in>:nth-child(n+5){animation-delay:.37s}
+/* section headings: a soft mask reveal on top of the rise */
+:is(.rv-fade,.pv-reveal).in :is(h2,.pv-included-head h3){animation:rv-heading 1s var(--rv-ease) .1s backwards}
+@keyframes rv-heading{from{clip-path:inset(0 0 100% 0);transform:translateY(.3em)}to{clip-path:inset(-.25em -.1em -.3em -.1em)}}
+/* card groups: their stagger now waits until the group is actually on screen (it used to play while still hidden) */
+.pv-reveal:not(.in) .pv5-card,.rv-fade:not(.in) :is(.rv6-p,.rv-ind,.rv5-stat-chips li){animation-play-state:paused}
+.pv-included.pv-reveal .pv5-card{animation-delay:calc(.15s + var(--i) * 80ms)}
+/* services: rows enter one after another */
+.rv-service-list.rv-fade{transform:none}
+.rv-service-list.in>.rv-service{animation:rv-rise .8s var(--rv-ease) backwards}
+.rv-service-list.in>:nth-child(2){animation-delay:.07s}.rv-service-list.in>:nth-child(3){animation-delay:.14s}.rv-service-list.in>:nth-child(4){animation-delay:.21s}.rv-service-list.in>:nth-child(5){animation-delay:.28s}
+/* testimonials: the quote picker follows the featured quote */
+.rv5-voices.in .rv5-voice-side>*{animation:rv-rise .8s var(--rv-ease) backwards}
+.rv5-voices.in .rv5-voice-side>:nth-child(2){animation-delay:.08s}.rv5-voices.in .rv5-voice-side>:nth-child(3){animation-delay:.16s}.rv5-voices.in .rv5-voice-side>:nth-child(n+4){animation-delay:.24s}
+/* about photo: image reveal (frame opens, photo settles from a slight zoom) */
+.rv5-media.rv-fade{transform:none}
+.rv5-media.rv-fade:not(.in) .rv5-photo{clip-path:inset(7% round 32px)}
+.rv5-media.rv-fade.in .rv5-photo{animation:rv-img-reveal 1.3s var(--rv-ease) backwards}
+.rv5-media.rv-fade.in .rv5-photo img.is-loaded{animation:rv-img-settle 1.6s var(--rv-ease) backwards}
+@keyframes rv-img-reveal{from{clip-path:inset(7% round 32px)}to{clip-path:inset(0 round 32px)}}
+@keyframes rv-img-settle{from{scale:1.22}}
+/* footer: columns rise in a short stagger */
+.rv-stagger>*{opacity:0;transform:translateY(var(--rise));transition:opacity .8s var(--rv-ease),transform .8s var(--rv-ease)}
+.rv-stagger.in>*{opacity:1;transform:none}
+.rv-stagger>:nth-child(2){transition-delay:.08s}.rv-stagger>:nth-child(3){transition-delay:.16s}.rv-stagger>:nth-child(4){transition-delay:.24s}
+
+/* ------------------------------------------------ product switcher (6 products) */
+/* wide screens keep the original one-row switcher with the sliding pill; below 1240px six names no longer fit,
+   so it scrolls sideways (the existing mobile mode) and the edges fade only on the side with more products */
+@property --fl{syntax:"<length>";inherits:false;initial-value:0px}
+@property --fr{syntax:"<length>";inherits:false;initial-value:48px}
+.pv-switch button{padding:13px 12px}
+@media (max-width:1240px){
+  .pv-switch{display:flex;gap:4px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+  .pv-switch::-webkit-scrollbar{display:none}
+  .pv-switch::before{display:none}
+  .pv-switch button{flex:0 0 auto;min-width:176px;scroll-snap-align:start;padding:13px 16px}
+  .pv-switch button.on{background:linear-gradient(135deg,var(--pv-dark),color-mix(in srgb,var(--pv-brand) 70%,var(--pv-dark)));box-shadow:0 14px 26px -14px color-mix(in srgb,var(--pv-brand) 60%,transparent)}
+  @supports (animation-timeline: scroll()){
+    .pv-switch{--fl:0px;--fr:48px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent);
+      animation:pv-switch-fade linear both;animation-timeline:scroll(self inline)}
+    @keyframes pv-switch-fade{0%{--fl:0px;--fr:48px}8%,92%{--fl:48px;--fr:48px}100%{--fl:48px;--fr:0px}}
+  }
+}
+
+/* -------------------------------------------------------------------- 3D */
+/* (1) 3D entrances: card groups tip up into place (from below, in perspective) as their section is revealed */
+.rv-site{--flip:34deg;--tip:20deg}
+@keyframes rv-flip-in{from{opacity:0;transform:perspective(1000px) rotateX(var(--flip)) translateY(48px) scale(.94)}}
+.pv-included.pv-reveal .pv5-card,.rv5-copy .rv6-p,.rv-ind-body .rv-ind{animation-name:rv-flip-in;animation-duration:1s}
+.rv-service-list.in>.rv-service,.rv5-voices.in .rv5-voice-side>*{animation-name:rv-flip-in;animation-duration:.95s}
+
+/* (2) pointer tilt with real depth (mouse only, see tilt()): the card turns toward the cursor and its icon,
+       visual and title float above the surface. Bento, About principles, Industries tiles + panel, client cards. */
+.rv-tilt{--rx:0deg;--ry:0deg}
+.rv-fit.rv-tilt{animation-fill-mode:backwards}
+@media (hover:hover) and (pointer:fine){
+  .rv-tilt{overflow:clip;transform-style:preserve-3d}
+  .rv-tilt :is(.pv5-text,.pv5-top,.pv5-vis-wrap,.rv6-p-top,.rv5-client-text){transform-style:preserve-3d}
+  .pv5-card.rv-tilt:hover{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px)}
+  .rv6-p.rv-tilt:hover{transform:perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px)}
+  .rv-ind.rv-tilt:hover{transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-5px)}
+  .rv5-client.rv-tilt:hover{transform:perspective(800px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px)}
+  .rv-fit.rv-tilt{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s var(--rv-ease)}
+  .rv-tilt :is(.pv5-icon,.rv6-p-icon,.rv-fit-icon,.rv-ind-icon,.rv5-client-mark,.pv5-vis,.rv6-p-mark,h3,h4,strong){transition:transform .45s var(--rv-ease),translate .55s var(--rv-ease),background-color .3s ease-in-out,color .3s ease-in-out,box-shadow .35s var(--rv-ease),opacity .4s ease-in-out}
+  .rv-tilt:hover :is(.pv5-icon,.rv6-p-icon,.rv-fit-icon,.rv-ind-icon,.rv5-client-mark){translate:0 0 56px}
+  .rv-tilt:hover :is(.pv5-vis,.rv6-p-mark){translate:0 0 32px}
+  .rv-tilt:hover :is(h3,h4,strong){translate:0 0 24px}
+}
+
+/* (3) scroll-linked 3D (no hover needed): large panels tip forward into place as they scroll into view, and the
+       hero content tilts back as you scroll away from it. Pure CSS scroll timelines - browsers without support simply skip it. */
+@supports (animation-timeline: view()){
+  /* same clipping as overflow:hidden, but not a scroll container - so view() follows the page scroll */
+  .pv-section{overflow:clip}
+  @media (prefers-reduced-motion:no-preference){
+    .pv-stage,.rv5-flow,.rv5-voice-main,.rv-form,.pv-cta{transform-origin:50% 100%;animation:rv-tip-in linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+    @keyframes rv-tip-in{from{transform:perspective(1600px) rotateX(var(--tip)) translateY(60px) scale(.92)}to{transform:perspective(1600px) rotateX(0deg) translateY(0) scale(1)}}
+    .rv-hero-inner{transform-origin:50% 0;animation:rv-hero-away linear both;animation-timeline:scroll(root);animation-range:0 90vh}
+    @keyframes rv-hero-away{to{transform:perspective(1400px) rotateX(18deg) translateY(90px) scale(.9);opacity:.2}}
+  }
+}
+
+/* ------------------------------------------------------- micro-interactions */
+/* pressed state: a quick, small press on every button-like control */
+.rv-site :is(.rv-btn,.rv-cta,.pv-btn,.rv-burger,.rv-top,.rv-wa,.rv-chips button,.rv5-filters button,.rv-service-quick button,.rv-console-tabs button,.pv-switch button,.rv-footer-social a,.rv-footer-bottom button,.rv-address-actions a,.rv-address-actions button,.rv5-voice-nav button,.rv5-pick,.rv-ind):active:not(:disabled){transform:translateY(0) scale(.97);transition-duration:.08s}
+.rv-site :is(.rv-copy,.pv5-more,.rv6-p-link,.rv-link-btn):active{transform:scale(.95);transition:transform .08s}
+/* keyboard focus is always visible */
+:where(.rv-site) :is(button,a):focus-visible{outline:3px solid color-mix(in srgb,var(--rv-brand) 60%,#fff);outline-offset:3px}
+/* confirmation ticks (copied / selected) pop in */
+.rv-tick,.rv-chips button svg{animation:rv-tick-pop .4s var(--rv-ease) backwards}
+@keyframes rv-tick-pop{from{opacity:0;transform:scale(.3) rotate(-25deg)}}
+/* validation messages ease in instead of snapping */
+.rv-field em,.pv-form-error,.rv-form-error{animation:rv-err-in .3s var(--rv-ease) backwards}
+@keyframes rv-err-in{from{opacity:0;transform:translateY(-5px)}}
+/* success panel: content follows the check mark */
+.rv-done>*{animation:rv-rise .6s var(--rv-ease) backwards}
+.rv-done>:nth-child(2){animation-delay:.12s}.rv-done>:nth-child(3){animation-delay:.18s}.rv-done>:nth-child(n+4){animation-delay:.24s}
+.rv-done>.rv-done-icon{animation:rv-pop .5s var(--rv-ease) both}
+/* mobile menu: the burger answers the tap, drawer links already cascade in */
+.rv-burger svg{transition:transform .3s var(--rv-ease)}.rv-burger[aria-expanded="true"] svg{transform:rotate(90deg) scale(.85)}
+
+/* ---------------------------------------------------------------- mobile */
+@media (max-width:680px){
+  .rv-site{--rise:12px;--flip:22deg;--tip:12deg}
+  .rv-fade{transform:translateY(16px)}
+  .rv-console-wrap{animation-name:rv-rise}
+  .rv5-media.rv-fade:not(.in) .rv5-photo{clip-path:inset(4% round 24px)}
+}
+
+/* ---------------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion:reduce){
+  .rv-site{animation:none}
+  [data-parallax]{translate:none}
+  .rv-float-chip{translate:none}
+  .rv-stagger>*{opacity:1;transform:none}
+  .rv5-media.rv-fade .rv5-photo{clip-path:none}
+  .rv5-photo img.rv-img{scale:1}
+  .rv-tilt{transform:none!important}
+  .rv-tilt *{translate:none!important}
+}
